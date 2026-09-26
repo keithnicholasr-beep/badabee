@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+:root {
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: #223b38;
+  background: #f5f7f5;
+  font-synthesis: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a,
+input,
+select,
+textarea {
+  outline-offset: 4px;
+}
+button {
+  cursor: pointer;
+  border: 1px solid #d4dfda;
+  background: white;
+  color: #224d44;
+  padding: 9px 16px;
+  border-radius: 7px;
+  font-weight: 600;
+}
+button:hover {
+  background: #edf5f0;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+h1,
+h2,
+h3 {
+  font-family: Manrope, system-ui, sans-serif;
+  color: #173b33;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 32px;
+  letter-spacing: -1px;
+  margin: 8px 0 10px;
+}
+h2 {
+  font-size: 19px;
+  margin: 0 0 10px;
+}
+h3 {
+  font-size: 14px;
+  margin: 16px 0 5px;
+}
+p {
+  margin: 7px 0 14px;
+}
+a {
+  color: #23634f;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-weight: 500;
+  font-size: 13px;
+  margin: 16px 0;
+}
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #d4dfda;
+  border-radius: 6px;
+  background: white;
+  padding: 11px 12px;
+  color: #233c36;
+}
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+small {
+  font-size: 11px;
+}
+.muted {
+  color: #75867f;
+}
+.small {
+  font-size: 12px;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  font-weight: 700;
+  color: #668776;
+  margin: 0 0 8px;
+}
+.primary {
+  background: #28664f;
+  color: white;
+  border-color: #28664f;
+}
+.primary:hover {
+  background: #184d3a;
+}
+.error {
+  background: #fff0ed;
+  color: #942e25;
+  padding: 14px;
+  border: 1px solid #f3c8c0;
+  border-radius: 6px;
+}
+.text-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #246951;
+  text-align: left;
+}
+.empty {
+  padding: 40px;
+  text-align: center;
+  color: #75867f;
+}

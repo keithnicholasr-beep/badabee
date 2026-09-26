@@ -1,0 +1,12 @@
+.env
+.venv/
+.venv312/
+tmp/
+install-temp/
+pytest-cache-files-*/
+__pycache__/
+.pytest_cache/
+*.db
+node_modules/
+dist/
+*.log
