@@ -8,17 +8,78 @@ import { human } from "./format";
 import "./App.css";
 
 function Login({ onLogin }) {
-  const [error, setError] = useState(""),
-    [busy, setBusy] = useState(false);
-  async function submit(e) {
-    e.preventDefault();
-    setBusy(true);
+  const [signup, setSignup] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [locations, setLocations] = useState([]);
+  const [loadingLocations, setLoadingLocations] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+
+    api("/auth/registration-options")
+      .then((data) => {
+        if (active) setLocations(data);
+      })
+      .catch(() => {
+        if (active) {
+          setError("Could not load signup locations. Please refresh.");
+        }
+      })
+      .finally(() => {
+        if (active) setLoadingLocations(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  function switchMode() {
+    setSignup(!signup);
     setError("");
-    const form = new FormData(e.currentTarget);
+    setMessage("");
+  }
+
+  async function submit(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const values = Object.fromEntries(new FormData(form));
+
+    setError("");
+    setMessage("");
+
+    if (signup && values.password !== values.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setBusy(true);
+
     try {
-      const result = await post("/auth/login", Object.fromEntries(form));
-      setToken(result.access_token);
-      onLogin(await api("/auth/me"));
+      if (signup) {
+        await post("/auth/register", {
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          district_id: values.district_id,
+          language: values.language,
+        });
+
+        form.reset();
+        setSignup(false);
+        setMessage("Account created. You can now sign in.");
+      } else {
+        const result = await post("/auth/login", {
+          email: values.email,
+          password: values.password,
+        });
+
+        setToken(result.access_token);
+        onLogin(await api("/auth/me"));
+      }
     } catch (err) {
       setError(err.message);
       setToken(null);
@@ -26,47 +87,171 @@ function Login({ onLogin }) {
       setBusy(false);
     }
   }
+
   return (
     <div className="login-layout">
       <section className="welcome">
-        <div className="brand">SWASTYA</div>
+        <div className="brand">✳ badabee</div>
+
         <div>
           <p className="eyebrow">SUPPORT. PROTECT. RESTORE.</p>
           <h1>
-            Support when
+            A clearer path
             <br />
-            it matters most.
+            to coordinated care.
           </h1>
           <p>
-            Bring legal support, case progress, and public services together in
-            one secure workspace.
+            Bring legal support, case progress, and public services
+            together in one secure workspace.
           </p>
         </div>
+
         <small>Victim support & case coordination</small>
       </section>
+
       <main className="login-panel">
-        <form onSubmit={submit}>
-          <h2>Welcome</h2>
+        <form
+          key={signup ? "signup" : "login"}
+          onSubmit={submit}
+        >
+          <p className="eyebrow">YOUR SECURE WORKSPACE</p>
+
+          <h2>{signup ? "Create an account" : "Welcome back"}</h2>
+
+          <p className="muted">
+            {signup
+              ? "Register for a personal support account."
+              : "Sign in with your email and password."}
+          </p>
+
+          {signup && (
+            <label>
+              Full name
+              <input
+                name="name"
+                autoComplete="name"
+                minLength={2}
+                maxLength={120}
+                required
+              />
+            </label>
+          )}
+
           <label>
             Email
-            <input name="email" type="email" autoComplete="username" required />
+            <input
+              name="email"
+              type="email"
+              autoComplete="username"
+              maxLength={254}
+              required
+            />
           </label>
+
           <label>
             Password
             <input
               name="password"
               type="password"
-              autoComplete="current-password"
+              autoComplete={
+                signup ? "new-password" : "current-password"
+              }
+              minLength={signup ? 12 : 1}
+              maxLength={256}
               required
             />
           </label>
+
+          {signup && (
+            <>
+              <p className="muted small">
+                Use at least 12 characters.
+              </p>
+
+              <label>
+                Confirm password
+                <input
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  minLength={12}
+                  maxLength={256}
+                  required
+                />
+              </label>
+
+              <label>
+                District and state
+                <select
+                  name="district_id"
+                  defaultValue=""
+                  disabled={loadingLocations}
+                  required
+                >
+                  <option value="" disabled>
+                    {loadingLocations
+                      ? "Loading locations…"
+                      : "Select your district"}
+                  </option>
+
+                  {locations.map((item) => (
+                    <option
+                      key={item.district_id}
+                      value={item.district_id}
+                    >
+                      {item.district}, {item.state}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label>
+                Preferred language
+                <input
+                  name="language"
+                  defaultValue="English"
+                  maxLength={60}
+                  required
+                />
+              </label>
+
+              {!loadingLocations && locations.length === 0 && (
+                <p role="alert">
+                  Signup locations are not configured yet.
+                </p>
+              )}
+            </>
+          )}
+
           <ErrorBox error={error} />
-          <button className="primary" disabled={busy}>
-            {busy ? "Signing in…" : "Sign in →"}
+
+          {message && <p role="status">{message}</p>}
+
+          <button
+            type="submit"
+            className="primary"
+            disabled={
+              busy ||
+              (signup &&
+                (loadingLocations || locations.length === 0))
+            }
+          >
+            {busy
+              ? "Please wait…"
+              : signup
+                ? "Create account"
+                : "Sign in →"}
           </button>
-          <p className="muted small">
-            Access follows your role and jurisdiction.
-          </p>
+
+          <button
+            type="button"
+            onClick={switchMode}
+            disabled={busy}
+          >
+            {signup
+              ? "Already have an account? Sign in"
+              : "New here? Create an account"}
+          </button>
         </form>
       </main>
     </div>

@@ -8,8 +8,36 @@ class Input(BaseModel):
 
 
 class Login(Input):
+    # Preserve passwords exactly as entered, including spaces.
+    model_config = ConfigDict(
+        extra='forbid',
+        str_strip_whitespace=False,
+    )
+
     email: str = Field(min_length=3, max_length=254)
     password: str = Field(min_length=1, max_length=256)
+
+    @field_validator('email', mode='before')
+    @classmethod
+    def normalize_email(cls, value):
+        return value.strip().lower() if isinstance(value, str) else value
+
+
+class Register(Login):
+    name: str = Field(min_length=2, max_length=120)
+    email: str = Field(
+        min_length=3,
+        max_length=254,
+        pattern=r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
+    )
+    password: str = Field(min_length=12, max_length=256)
+    district_id: str = Field(min_length=1, max_length=36)
+    language: str = Field(default='English', min_length=1, max_length=60)
+
+    @field_validator('name', 'language', mode='before')
+    @classmethod
+    def trim_text(cls, value):
+        return value.strip() if isinstance(value, str) else value
 
 
 class SectionInput(Input):
