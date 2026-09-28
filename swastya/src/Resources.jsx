@@ -23,17 +23,18 @@ export function Directory({ victimId = "" }) {
     setBusy(true);
     setError("");
     try {
+      const matchVictim = victimId || victim;
       const query = new URLSearchParams(
-        victim
+        matchVictim
           ? {
-              victim_id: victim,
+              victim_id: matchVictim,
               ...(service ? { required_service: service } : {}),
             }
           : service
             ? { service }
             : {},
       );
-      setItems(await api(`${victim ? "/ngos/match" : "/ngos"}?${query}`));
+      setItems(await api(`${matchVictim ? "/ngos/match" : "/ngos"}?${query}`));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -67,14 +68,14 @@ export function Directory({ victimId = "" }) {
             ))}
           </select>
         </label>
-        <label>
+        {!victimId && <label>
           Match a permitted victim (optional)
           <input
             value={victim}
             onChange={(e) => setVictim(e.target.value)}
             placeholder="Victim ID"
           />
-        </label>
+        </label>}
         <button className="primary" disabled={busy}>
           {busy ? "Searching…" : "Find support"}
         </button>

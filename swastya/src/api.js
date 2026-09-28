@@ -3,20 +3,21 @@ export function setToken(value) {
   token = value;
 }
 export async function api(path, options = {}) {
+  const requestToken = token;
   const response = await fetch(
     `${import.meta.env.VITE_API_URL || "/api"}${path}`,
     {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(requestToken ? { Authorization: `Bearer ${requestToken}` } : {}),
         ...options.headers,
       },
     },
   );
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    if (response.status === 401)
+    if (response.status === 401 && requestToken && requestToken === token && path !== "/auth/login")
       window.dispatchEvent(new Event("session-expired"));
     const message =
       typeof data.detail === "string"

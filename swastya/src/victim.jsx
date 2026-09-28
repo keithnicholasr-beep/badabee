@@ -3,10 +3,11 @@ import { api } from "./api";
 import { Badge, ErrorBox } from "./ui";
 import { human, date } from "./format";
 import Profile, { Avatar } from "./Profile";
+import Home from "./Home";
 import { Directory } from "./Resources";
 
 export default function VictimDashboard({ user, onLogout, profileProps }) {
-  const [page, setPage] = useState("Overview");
+  const [page, setPage] = useState("Home");
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [reload, setReload] = useState(0);
@@ -43,6 +44,7 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
   }
 
   const pages = [
+    "Home",
     "Overview",
     "My cases",
     "Follow-ups",
@@ -78,15 +80,15 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
         </nav>
 
         <div className="sidebar-bottom">
-          <button className="profile-nav" onClick={() => setPage("Profile")} aria-current={page === "Profile" ? "page" : undefined}><Avatar name={user.name} photo={profileProps.profile?.photo} /> My profile & settings</button>
+          <button className="profile-nav" onClick={() => setPage("Profile")} aria-current={page === "Home" ? <Home user={user} onLoginClick={() => setPage("Overview")} /> : page === "Profile" ? "page" : undefined}><Avatar name={user.name} photo={profileProps.profile?.photo} /> My profile & settings</button>
           <p>{user.name}</p>
           <button onClick={onLogout}>Sign out</button>
         </div>
       </aside>
 
       <div className="workspace">
-        <main className="content">
-          {page === "Profile" ? <Profile {...profileProps} onLogout={onLogout} /> : <>
+        <main className={page === "Home" ? "dashboard-home-content" : "content"}>
+          {page === "Home" ? <Home user={user} onLoginClick={() => setPage("Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={onLogout} /> : <>
           <div className="page-heading">
             <div>
               <p className="eyebrow">YOUR SUPPORT SPACE</p>

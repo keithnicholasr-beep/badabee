@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { api, post, patch } from "./api";
 import { Badge, ErrorBox } from "./ui";
 import { human, date } from "./format";
-import { Directory } from "./Resources";
 
 export function LegalDashboard({ tableOnly, onSelect }) {
   const [data, setData] = useState(null),
@@ -182,8 +181,7 @@ export function CaseDetail({ caseId, onBack }) {
         api(`/cases/${caseId}/documents`),
         api("/prosecutors"),
       ]);
-    const schemes = await api(`/victims/${record.victim_id}/eligible-schemes`);
-    setData({ record, timeline, hearings, documents, schemes, prosecutors });
+    setData({ record, timeline, hearings, documents, prosecutors });
   }, [caseId]);
   useEffect(() => {
     void Promise.resolve()
@@ -237,8 +235,6 @@ export function CaseDetail({ caseId, onBack }) {
           "Hearings",
           "Timeline",
           "Documents",
-          "Scheme eligibility",
-          "NGO matching",
           "Linked case",
         ].map((x) => (
           <button
@@ -517,7 +513,6 @@ export function CaseDetail({ caseId, onBack }) {
           ))}
         </section>
       )}
-      {tab === "NGO matching" && <Directory victimId={c.victim_id} />}
       {tab === "Linked case" && (
         <section className="panel pad">
           <h2>Open a linked case</h2>
@@ -555,30 +550,7 @@ export function CaseDetail({ caseId, onBack }) {
           </form>
         </section>
       )}
-      {tab === "Scheme eligibility" && (
-        <div className="cards">
-          {data.schemes.map((s) => (
-            <article className="panel pad" key={s.id}>
-              <Badge value={s.eligibility} />
-              <h2>{s.name}</h2>
-              <p>{s.description}</p>
-              <h3>Benefits</h3>
-              <p>{s.benefits}</p>
-              <h3>Rule checks</h3>
-              {s.explanation.map((x, i) => (
-                <p key={i}>
-                  {human(x.field)}: {human(x.result)}
-                </p>
-              ))}
-              <h3>Required documents</h3>
-              <p>{s.required_documents.join(", ")}</p>
-              <p className="muted small">
-                Preliminary rule match; verification is required.
-              </p>
-            </article>
-          ))}
-        </div>
-      )}
+
     </>
   );
 }

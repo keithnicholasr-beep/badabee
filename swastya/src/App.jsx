@@ -7,295 +7,10 @@ import { ErrorBox } from "./ui";
 import { human } from "./format";
 import VictimDashboard from "./victim";
 import "./App.css";
+import Home from "./Home";
 import Profile, { Avatar } from "./Profile";
 import { useProfile } from "./useProfile";
-function PublicHome({ onLoginClick }) {
-  return (
-    <div className="public-site">
-
-
-      <header className="public-header">
-        <div className="public-container header-inner">
-          <div className="public-logo">S</div>
-
-          <div className="public-brand">
-            <small>Integrated Citizen Support Platform</small>
-            <h1>SWASTYA</h1>
-            <p>Victim Support & Case Coordination Platform</p>
-          </div>
-
-          <button
-            className="header-login-button"
-            onClick={onLoginClick}
-          >
-            Login
-          </button>
-        </div>
-      </header>
-
-      <div className="public-tricolour">
-        <span />
-        <span />
-        <span />
-      </div>
-
-      <nav className="public-nav">
-        <div className="public-container nav-inner">
-          <a href="#home">Home</a>
-          <a href="#services">Services</a>
-          <a href="#features">Platform</a>
-          <a href="#security">Security</a>
-          <a href="#support">Support</a>
-        </div>
-      </nav>
-
-      <main>
-        <section className="hero" id="home">
-          <div className="public-container hero-grid">
-            <div>
-              <p className="section-tag">
-                INTEGRATED SUPPORT & COORDINATION
-              </p>
-
-              <h2>
-                One secure platform for coordinated victim support.
-              </h2>
-
-              <p className="hero-description">
-                SWASTYA connects legal case coordination, support services,
-                government schemes, NGO resources and administrative insights
-                through a unified digital platform.
-              </p>
-
-              <div className="hero-actions">
-                <button
-                  className="main-login-button"
-                  onClick={onLoginClick}
-                >
-                  Login to Portal
-                </button>
-
-                <a href="#services" className="secondary-link">
-                  Explore Services
-                </a>
-              </div>
-            </div>
-
-            <div className="hero-info-card">
-              <div className="info-card-title">
-                Platform Services
-              </div>
-
-              <div className="quick-service">
-                <span>01</span>
-                <div>
-                  <strong>Legal Case Management</strong>
-                  <p>Cases, hearings, timelines and case progress.</p>
-                </div>
-              </div>
-
-              <div className="quick-service">
-                <span>02</span>
-                <div>
-                  <strong>Support Coordination</strong>
-                  <p>
-                    Alerts, follow-ups and coordinated assistance.
-                  </p>
-                </div>
-              </div>
-
-              <div className="quick-service">
-                <span>03</span>
-                <div>
-                  <strong>Public Services</strong>
-                  <p>
-                    Government schemes and NGO support directory.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="services-section" id="services">
-          <div className="public-container">
-            <div className="section-heading">
-              <p className="section-tag">SERVICES</p>
-              <h2>Integrated support ecosystem</h2>
-              <p>
-                Different services work together while access remains
-                restricted according to the user's role and jurisdiction.
-              </p>
-            </div>
-
-            <div className="service-grid">
-              <article className="service-card">
-                <div className="service-number">01</div>
-                <h3>Legal Support</h3>
-                <p>
-                  Track cases, FIR information, legal milestones,
-                  hearings, prosecutors and case status.
-                </p>
-              </article>
-
-              <article className="service-card">
-                <div className="service-number">02</div>
-                <h3>Case Coordination</h3>
-                <p>
-                  Maintain case timelines, protection requests,
-                  compensation progress and rehabilitation status.
-                </p>
-              </article>
-
-              <article className="service-card">
-                <div className="service-number">03</div>
-                <h3>Support Alerts</h3>
-                <p>
-                  Authorized support teams can review and acknowledge
-                  operational alerts within their permitted scope.
-                </p>
-              </article>
-
-              <article className="service-card">
-                <div className="service-number">04</div>
-                <h3>NGO Directory</h3>
-                <p>
-                  Search support organisations based on service,
-                  language and location.
-                </p>
-              </article>
-
-              <article className="service-card">
-                <div className="service-number">05</div>
-                <h3>Government Schemes</h3>
-                <p>
-                  View available schemes, benefits, eligibility rules,
-                  application processes and required documents.
-                </p>
-              </article>
-
-              <article className="service-card">
-                <div className="service-number">06</div>
-                <h3>Administrative Analytics</h3>
-                <p>
-                  District, state and national administrative views
-                  provide aggregated operational insights.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="platform-section" id="features">
-          <div className="public-container platform-grid">
-            <div>
-              <p className="section-tag">SWASTYA PLATFORM</p>
-
-              <h2>Designed around coordinated assistance</h2>
-
-              <p>
-                SWASTYA provides different interfaces for legal officers
-                and administrative users while enforcing jurisdiction and
-                role-based access through the backend.
-              </p>
-            </div>
-
-            <div className="platform-list">
-              <div>
-                <strong>Role-based access</strong>
-                <span>
-                  Information is shown according to user permissions.
-                </span>
-              </div>
-
-              <div>
-                <strong>Jurisdiction controls</strong>
-                <span>
-                  Administrative information follows district, state
-                  and national scopes.
-                </span>
-              </div>
-
-              <div>
-                <strong>Case visibility</strong>
-                <span>
-                  Legal officers only access cases permitted to them.
-                </span>
-              </div>
-
-              <div>
-                <strong>Secure activity</strong>
-                <span>
-                  Sensitive reads and actions are recorded by the
-                  backend audit system.
-                </span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="security-section" id="security">
-          <div className="public-container security-content">
-            <div>
-              <p className="section-tag">SECURITY & PRIVACY</p>
-              <h2>Access controlled by design</h2>
-            </div>
-
-            <p>
-              SWASTYA uses authenticated access, jurisdiction controls,
-              role checks, short-lived sessions and audit records to help
-              protect sensitive support information.
-            </p>
-          </div>
-        </section>
-
-        <section className="portal-cta" id="support">
-          <div className="public-container cta-inner">
-            <div>
-              <p className="section-tag">SECURE PORTAL</p>
-              <h2>Already registered?</h2>
-              <p>
-                Sign in to access the services available for your role.
-              </p>
-            </div>
-
-            <button
-              className="main-login-button"
-              onClick={onLoginClick}
-            >
-              Login to SWASTYA
-            </button>
-          </div>
-        </section>
-      </main>
-
-      <footer className="public-footer">
-        <div className="public-container footer-grid">
-          <div>
-            <strong>SWASTYA</strong>
-            <p>
-              Victim Support & Case Coordination Platform
-            </p>
-          </div>
-
-          <div>
-            <span>Privacy</span>
-            <span>Accessibility</span>
-            <span>Help</span>
-            <span>Contact</span>
-          </div>
-        </div>
-
-        <div className="public-container footer-bottom">
-          Prototype developed for Smart India Hackathon 2026.
-          Not an official Government of India production website.
-        </div>
-      </footer>
-    </div>
-  );
-}
-
-function Login({ onLogin, onBack }) {
+function Login({ onLogin, onBack, notice }) {
   const [signup, setSignup] = useState(false);
   const [locations, setLocations] = useState([]);
   const [locationError, setLocationError] = useState("");
@@ -401,7 +116,7 @@ function Login({ onLogin, onBack }) {
             </label>
 
             {signup && <label>Confirm password<input name="confirmation" type="password" autoComplete="new-password" required minLength={12} maxLength={256} /><small>Use at least 12 characters.</small></label>}
-            <ErrorBox error={error} />
+            <ErrorBox error={error || notice} />
 
             <button
               className="login-submit-button"
@@ -414,14 +129,12 @@ function Login({ onLogin, onBack }) {
           <button className="account-switch" type="button" disabled={busy} onClick={() => { setError(""); setSignup(value => !value); }}>{signup ? "Already registered? Sign in" : "New here? Create an account"}</button>
           {signup && <p className="registration-note">Public signup creates a victim account. Legal officers, counsellors and administrators receive staff accounts from the platform administrator.</p>}
 
-          <div className="login-security-message">
-            🔒 Secure role-based access
-          </div>
+
         </section>
       </main>
 
       <div className="minimal-login-footer">
-        SWASTYA · SIH 2026 Prototype
+        SWASTYA
       </div>
     </div>
   );
@@ -430,7 +143,7 @@ function Login({ onLogin, onBack }) {
 function App() {
   const [user, setUser] = useState(null),
     [showLogin, setShowLogin] = useState(false),
-    [page, setPage] = useState("Overview"),
+    [page, setPage] = useState("Home"),
     [selectedCase, setSelectedCase] = useState(null),
     [notice, setNotice] = useState("");
 
@@ -441,12 +154,13 @@ function App() {
     setUser(null);
     setShowLogin(false);
     setSelectedCase(null);
-    setPage("Overview");
+    setPage("Home");
   }
 
   useEffect(() => {
     function expired() {
       logout();
+      setShowLogin(true);
       setNotice("Your session ended. Please sign in again.");
     }
 
@@ -460,7 +174,7 @@ function App() {
         <>
           <ErrorBox error={notice} />
 
-          <PublicHome
+          <Home
             onLoginClick={() => {
               setNotice("");
               setShowLogin(true);
@@ -472,6 +186,7 @@ function App() {
 
     return (
       <Login
+        notice={notice}
         onBack={() => {
           setNotice("");
           setShowLogin(false);
@@ -497,26 +212,10 @@ function App() {
   }
   const legal = user.role === "LEGAL_OFFICER",
     admin = user.role.endsWith("_ADMIN");
-  if (!legal && !admin)
-    return (
-      <main className="unsupported">
-        <button onClick={() => setPage(page === "Profile" ? "Overview" : "Profile")}>{page === "Profile" ? "Back" : "My profile & settings"}</button>
-        {page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : <h1>Signed in securely</h1>}
-        <p>
-          Your {human(user.role)} account can use the shared API. Its dashboard
-          is being developed separately.
-        </p>
-        <button onClick={logout}>Sign out</button>
-      </main>
-    );
   const links = legal
-    ? ["Overview", "Cases", "NGO directory", "Government schemes"]
-    : [
-      "Overview",
-      ...(user.role !== "NATIONAL_ADMIN" ? ["Alerts"] : []),
-      "NGO directory",
-      "Government schemes",
-    ];
+    ? ["Home", "Overview", "Cases"]
+    : admin ? ["Home", "Overview", ...(user.role !== "NATIONAL_ADMIN" ? ["Alerts"] : []), "NGO directory", "Government schemes"]
+    : ["Home"];
   function navigate(name) {
     setPage(name);
     setSelectedCase(null);
@@ -529,13 +228,13 @@ function App() {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            navigate("Overview");
+            navigate("Home");
           }}
         >
           SWASTYA
         </a>
         <p className="sidebar-label">
-          {legal ? "LEGAL WORKSPACE" : "ADMINISTRATION"}
+          {legal ? "LEGAL WORKSPACE" : admin ? "ADMINISTRATION" : "COUNSELLOR WORKSPACE"}
         </p>
         <nav>
           {links.map((link, i) => (
@@ -544,7 +243,7 @@ function App() {
               className={page === link ? "nav-link active" : "nav-link"}
               onClick={() => navigate(link)}
             >
-              <span aria-hidden="true">{["◫", "▤", "◎", "▧"][i]}</span>
+              <span aria-hidden="true">{["⌂", "◫", "▤", "◎", "▧"][i]}</span>
               {link}
             </button>
           ))}
@@ -575,15 +274,15 @@ function App() {
             </div>
           </div>
         </header>
-        <main className="content">
-          {page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : selectedCase ? (
+        <main className={page === "Home" ? "dashboard-home-content" : "content"}>
+          {page === "Home" ? <Home user={user} onLoginClick={() => navigate(user.role === "COUNSELLOR" ? "Profile" : "Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : selectedCase ? (
             <CaseDetail
               caseId={selectedCase}
               onBack={() => setSelectedCase(null)}
             />
-          ) : page === "NGO directory" ? (
+          ) : admin && page === "NGO directory" ? (
             <Directory />
-          ) : page === "Government schemes" ? (
+          ) : admin && page === "Government schemes" ? (
             <Schemes />
           ) : page === "Alerts" ? (
             <Alerts />
