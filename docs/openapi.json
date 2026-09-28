@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Badabee Support API",
+    "title": "SWASTYA Support API",
     "description": "Modular monolith. All victim records require assignment or jurisdiction authorization. National access is aggregate-only.",
     "version": "0.1.0"
   },
@@ -71,6 +71,73 @@
             "HTTPBearer": []
           }
         ]
+      }
+    },
+    "/auth/registration-options": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Registration Options",
+        "description": "Public geography list for the signup form.",
+        "operationId": "registration_options_auth_registration_options_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LocationOut"
+                  },
+                  "type": "array",
+                  "title": "Response Registration Options Auth Registration Options Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Register",
+        "operationId": "register_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/cases": {
@@ -2129,6 +2196,160 @@
         }
       }
     },
+    "/profile": {
+      "get": {
+        "tags": [
+          "My profile"
+        ],
+        "summary": "Get Profile",
+        "operationId": "get_profile_profile_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "My profile"
+        ],
+        "summary": "Update Profile",
+        "operationId": "update_profile_profile_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/profile/password": {
+      "post": {
+        "tags": [
+          "My profile"
+        ],
+        "summary": "Change Password",
+        "operationId": "change_password_profile_password_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/profile/photo": {
+      "post": {
+        "tags": [
+          "My profile"
+        ],
+        "summary": "Update Photo",
+        "operationId": "update_photo_profile_photo_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhotoUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
     "/health": {
       "get": {
         "tags": [
@@ -3521,6 +3742,48 @@
         ],
         "title": "NGOOut"
       },
+      "PasswordUpdate": {
+        "properties": {
+          "current_password": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "title": "Current Password"
+          },
+          "new_password": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 12,
+            "title": "New Password"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "current_password",
+          "new_password"
+        ],
+        "title": "PasswordUpdate"
+      },
+      "PhotoUpdate": {
+        "properties": {
+          "data_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2800000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Url"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "PhotoUpdate"
+      },
       "PredictionInput": {
         "properties": {
           "victim_id": {
@@ -3671,6 +3934,126 @@
           "created_at"
         ],
         "title": "PredictionOut"
+      },
+      "ProfileUpdate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email"
+          },
+          "current_password": {
+            "type": "string",
+            "maxLength": 256,
+            "title": "Current Password",
+            "default": ""
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "English",
+              "Hindi",
+              "Tamil",
+              "Kannada",
+              "Telugu",
+              "Malayalam",
+              "Marathi",
+              "Bengali"
+            ],
+            "title": "Language",
+            "default": "English"
+          },
+          "theme": {
+            "type": "string",
+            "enum": [
+              "system",
+              "light",
+              "dark"
+            ],
+            "title": "Theme",
+            "default": "system"
+          },
+          "text_size": {
+            "type": "string",
+            "enum": [
+              "standard",
+              "large",
+              "extra-large"
+            ],
+            "title": "Text Size",
+            "default": "standard"
+          },
+          "high_contrast": {
+            "type": "boolean",
+            "title": "High Contrast",
+            "default": false
+          },
+          "reduced_motion": {
+            "type": "boolean",
+            "title": "Reduced Motion",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "email"
+        ],
+        "title": "ProfileUpdate"
+      },
+      "Register": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 12,
+            "title": "Password"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "district_id": {
+            "type": "string",
+            "maxLength": 36,
+            "minLength": 1,
+            "title": "District Id"
+          },
+          "language": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 1,
+            "title": "Language",
+            "default": "English"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "email",
+          "password",
+          "name",
+          "district_id"
+        ],
+        "title": "Register"
       },
       "Role": {
         "type": "string",
@@ -3908,6 +4291,17 @@
               }
             ],
             "title": "State Id"
+          },
+          "victim_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Victim Id"
           }
         },
         "type": "object",

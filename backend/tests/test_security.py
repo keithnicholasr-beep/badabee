@@ -150,3 +150,42 @@ def test_audit_records_have_no_private_payload(client, db, auth):
     assert any(x.action == 'LIST' and x.resource_type == 'cases' for x in rows)
     assert any(x.action == 'ACCESS_DENIED' for x in rows)
     assert not hasattr(rows[0], 'payload')
+
+
+def test_registration_persists_and_cannot_self_assign_staff_role(client, db):
+    import uuid
+    from sqlalchemy import select
+    from app.models import User, Victim, Role
+    locations = client.get('/auth/registration-options').json()
+    payload = {'name': 'Synthetic Signup', 'email': f'{uuid.uuid4()}@example.test',
+               'password': 'Synthetic-signup-password-2026', 'district_id': locations[0]['district_id'], 'language': 'Tamil'}
+    assert client.post('/auth/register', json={**payload, 'role': 'NATIONAL_ADMIN'}).status_code == 422
+    response = client.post('/auth/register', json=payload)
+    assert response.status_code == 201
+    assert response.json()['role'] == 'VICTIM'
+    db.expire_all()
+    user = db.scalar(select(User).where(User.email == payload['email']))
+    assert user and user.role == Role.VICTIM
+    assert db.scalar(select(Victim.id).where(Victim.user_id == user.id))
+    login = client.post('/auth/login', json={'email': payload['email'], 'password': payload['password']})
+    assert login.status_code == 200
+    me = client.get('/auth/me', headers={'Authorization': 'Bearer '+login.json()['access_token']})
+    assert me.json()['victim_id'] is not None
+    assert client.post('/auth/register', json=payload).status_code == 409
+
+
+def test_local_staff_creator_links_both_roles(client, db, monkeypatch):
+    import uuid
+    import create_staff
+    from sqlalchemy import select
+    from app.models import User, LegalOfficer, Counsellor, Role
+    for choice, role, model in [('1', Role.LEGAL_OFFICER, LegalOfficer), ('2', Role.COUNSELLOR, Counsellor)]:
+        email = f'{uuid.uuid4()}@example.test'
+        answers = iter([choice, 'Synthetic Staff', email])
+        monkeypatch.setattr('builtins.input', lambda prompt: next(answers))
+        monkeypatch.setattr(create_staff, 'getpass', lambda prompt: 'Synthetic-staff-password-2026')
+        create_staff.main()
+        user = db.scalar(select(User).where(User.email == email))
+        assert user.role == role
+        assert db.scalar(select(model.id).where(model.user_id == user.id))
+        assert client.post('/auth/login', json={'email': email, 'password': 'Synthetic-staff-password-2026'}).status_code == 200

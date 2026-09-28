@@ -58,8 +58,8 @@ Use the password you selected in `DEMO_PASSWORD`.
 | `district1@demo.invalid` | Chennai |
 | `state1@demo.invalid` | Tamil Nadu |
 | `national@demo.invalid` | National aggregates, with optional narrower filters |
-| `counsellor1@demo.invalid` | Assigned victims; shared API only |
-| `victim1@demo.invalid` | Own records; shared API only |
+| `counsellor1@demo.invalid` | Assigned victims via API; profile settings available (clinical dashboard pending) |
+| `victim1@demo.invalid` | Own records and victim dashboard |
 
 District/Legal/Counsellor accounts 1–3 belong to Tamil Nadu, 4–6 to Karnataka, and 7–9 to Kerala. State accounts 1–3 follow that order. Tokens are held in browser memory and expire after 30 minutes; reloading requires login.
 
@@ -97,3 +97,11 @@ Run this command periodically in deployment. PostgreSQL row locks support concur
 - Analytics are aggregate-only for national admins, but there is no statistical disclosure suppression. Review small-cohort policy before using real data. This MVP calculates aggregates in application code; move expensive aggregations into SQL as volume grows.
 - Deploy behind TLS with encrypted storage/backups, restricted database credentials, an external secret store, and agreed retention/access policies before handling real records. The application provides role checks, record scoping, Argon2 hashing, short-lived JWTs, and audit records; it is not a production security certification.
 - Login throttling is per process. Use a shared gateway limiter for multi-worker deployment. Logout clears the browser token; server-side session revocation and refresh tokens are not implemented. Disabling a user takes effect on the next request.
+
+## Profile settings and registration
+
+The redesigned public homepage and login card share the existing backend. **New here? Create an account** registers a victim and signs them in. Staff roles are provisioned locally by an administrator; public signup cannot grant staff access.
+
+From the backend folder, run `.\.venv\Scripts\python.exe create_staff.py` to create a legal officer or counsellor with their linked professional profile. Existing accounts are never overwritten. Fresh-database administrator setup remains `python -m app.bootstrap`.
+
+**My profile & settings** is available from each dashboard and the counsellor placeholder. See [profile setup and usage](docs/profile-settings.md). Run `python -m pip install -r requirements.txt` and `python -m alembic upgrade head` before starting an updated backend. Language is a saved communication preference; the interface currently remains English.

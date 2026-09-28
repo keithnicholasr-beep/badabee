@@ -1,6 +1,7 @@
 from datetime import timedelta
 from typing import Annotated
 import secrets
+import hashlib
 import jwt
 from argon2 import PasswordHasher
 from argon2.exceptions import VerificationError, InvalidHashError
@@ -28,7 +29,8 @@ def verify_password(password, encoded):
 def token_for(user):
     config = settings()
     return jwt.encode({'sub': user.id, 'iat': now(), 'exp': now() + timedelta(minutes=config.token_minutes),
-                       'iss': config.jwt_issuer, 'aud': config.jwt_audience}, config.jwt_secret, algorithm='HS256')
+                       'iss': config.jwt_issuer, 'aud': config.jwt_audience,
+                       'pv': hashlib.sha256(user.password_hash.encode()).hexdigest()}, config.jwt_secret, algorithm='HS256')
 
 
 def current_user(request: Request, db: DB, credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)]):
@@ -40,7 +42,8 @@ def current_user(request: Request, db: DB, credentials: Annotated[HTTPAuthorizat
                              issuer=config.jwt_issuer, audience=config.jwt_audience,
                              options={'require': ['sub', 'iat', 'exp', 'iss', 'aud']})
         user = db.get(User, payload['sub'])
-        if user is None or not user.active:
+        if user is None or not user.active or not secrets.compare_digest(
+                str(payload.get('pv', '')), hashlib.sha256(user.password_hash.encode()).hexdigest()):
             raise ValueError()
         request.state.actor_id = user.id
         return user

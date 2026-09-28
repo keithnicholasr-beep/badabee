@@ -476,5 +476,25 @@ CREATE TABLE notification_outbox (
 
 INSERT INTO alembic_version (version_num) VALUES ('0b9345094ff9') RETURNING alembic_version.version_num;
 
+-- Running upgrade 0b9345094ff9 -> 72ac9e13
+
+CREATE TABLE user_settings (
+    id VARCHAR(36) NOT NULL, 
+    user_id VARCHAR(36) NOT NULL, 
+    photo TEXT, 
+    language VARCHAR(60) NOT NULL, 
+    theme VARCHAR(20) NOT NULL, 
+    text_size VARCHAR(20) NOT NULL, 
+    high_contrast BOOLEAN NOT NULL, 
+    reduced_motion BOOLEAN NOT NULL, 
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL, 
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL, 
+    PRIMARY KEY (id), 
+    UNIQUE (user_id), 
+    FOREIGN KEY(user_id) REFERENCES users (id)
+);
+
+UPDATE alembic_version SET version_num='72ac9e13' WHERE alembic_version.version_num = '0b9345094ff9';
+
 COMMIT;
 

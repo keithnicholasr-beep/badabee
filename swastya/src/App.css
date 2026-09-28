@@ -78,7 +78,7 @@ h1 {
 }
 
 h2 {
-  font-size: 22px;
+  font-size: 1.375rem;
   letter-spacing: -0.5px;
 }
 
@@ -91,7 +91,7 @@ p {
 }
 
 .small {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .app-shell {
@@ -130,7 +130,7 @@ p {
   text-decoration: none;
 
   font-family: "Manrope", sans-serif;
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: 800;
 
   letter-spacing: -1.2px;
@@ -145,7 +145,7 @@ p {
 .sidebar-label {
   margin: 0 12px 12px;
 
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
 
   letter-spacing: 1.6px;
@@ -177,7 +177,7 @@ p {
   background: transparent;
   color: #bcd1c8;
 
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 500;
 
   cursor: pointer;
@@ -191,7 +191,7 @@ p {
 }
 
 .nav-link span {
-  font-size: 18px;
+  font-size: 1.125rem;
   opacity: 0.85;
 }
 
@@ -230,7 +230,7 @@ p {
 
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .sidebar-bottom p {
@@ -239,7 +239,7 @@ p {
 
 .secure-dot {
   color: #91d0ab;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .workspace {
   margin-left: 260px;
@@ -266,7 +266,7 @@ p {
 
   border-bottom: 1px solid var(--border);
 
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .profile {
@@ -277,7 +277,7 @@ p {
 
 .profile strong {
   display: block;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .profile small {
@@ -286,7 +286,7 @@ p {
 
   color: var(--text-muted);
 
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 
 .avatar {
@@ -302,7 +302,7 @@ p {
   color: var(--primary);
 
   font-weight: 700;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .content {
@@ -323,7 +323,7 @@ p {
   border-radius: 6px;
   padding: 9px 13px;
   background: #fff;
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: #6a7c70;
 }
 .metrics {
@@ -368,7 +368,7 @@ p {
 .metric span {
   display: block;
 
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
 
   color: var(--text-secondary);
@@ -381,7 +381,7 @@ p {
 
   font-family: "Manrope", sans-serif;
 
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: 800;
 
   letter-spacing: -1px;
@@ -392,7 +392,7 @@ p {
 .metric small {
   color: var(--text-muted);
 
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .panel {
   background: var(--surface);
@@ -435,12 +435,12 @@ p {
   flex-direction: row;
   align-items: center;
   color: #77867c;
-  font-size: 11px;
+  font-size: 0.6875rem;
   white-space: nowrap;
 }
 .inline-label select {
   padding: 7px 12px;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .table-scroll {
   overflow: auto;
@@ -454,7 +454,7 @@ table {
 
   border-collapse: collapse;
 
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 th {
@@ -466,7 +466,7 @@ th {
 
   color: var(--text-muted);
 
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
 
   letter-spacing: 0.5px;
@@ -506,7 +506,7 @@ tbody tr:last-child td {
 
   border-radius: 999px;
 
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
 
   white-space: nowrap;
@@ -539,18 +539,18 @@ tbody tr:last-child td {
   gap: 10px;
   padding: 16px 24px;
   color: #7c8c80;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .pagination span {
   margin-right: auto;
 }
 .pagination button {
-  font-size: 11px;
+  font-size: 0.6875rem;
   padding: 6px 12px;
 }
 footer {
   padding: 10px 38px 25px;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #8e9d92;
 }
 .detail-grid {
@@ -618,7 +618,7 @@ dd {
   margin-top: 14px;
 }
 .cards p {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .tags {
   display: flex;
@@ -669,7 +669,7 @@ dd {
 .bar-label {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-bottom: 8px;
 }
 .bar-track {
@@ -704,7 +704,7 @@ dd {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 11px;
+  font-size: 0.6875rem;
   gap: 8px;
   flex: 1;
 }
@@ -732,7 +732,7 @@ dd {
 }
 .welcome h1 {
   color: #f4f7ed;
-  font-size: 46px;
+  font-size: 2.875rem;
   line-height: 1.2;
 }
 .welcome p {
@@ -751,7 +751,7 @@ dd {
   width: 100%;
 }
 .login-panel h2 {
-  font-size: 30px;
+  font-size: 1.875rem;
 }
 .login-panel .primary {
   width: 100%;
@@ -861,7 +861,7 @@ dd {
     padding: 16px;
   }
   .metric strong {
-    font-size: 26px;
+    font-size: 1.625rem;
   }
   .detail-grid {
     grid-template-columns: 1fr;
@@ -878,7 +878,7 @@ dd {
     padding: 30px;
   }
   .welcome h1 {
-    font-size: 34px;
+    font-size: 2.125rem;
   }
   .welcome small {
     display: none;
@@ -900,7 +900,7 @@ dd {
     flex-wrap: wrap;
   }
   h1 {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
 }
 
@@ -927,7 +927,7 @@ dd {
   background: #eeeeee;
   border-bottom: 1px solid #d5d8dc;
   color: #4a5158;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .public-topbar .public-container {
@@ -960,7 +960,7 @@ dd {
   display: grid;
   place-items: center;
   color: #174b78;
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 700;
 }
 
@@ -975,7 +975,7 @@ dd {
 .public-brand h1 {
   margin: 1px 0;
   color: #143f68;
-  font-size: 31px;
+  font-size: 1.9375rem;
   letter-spacing: 1px;
 }
 
@@ -1029,7 +1029,7 @@ dd {
   text-decoration: none;
   padding: 14px 22px;
   border-right: 1px solid rgba(255, 255, 255, 0.16);
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .nav-inner a:first-child {
@@ -1057,7 +1057,7 @@ dd {
 
 .section-tag {
   color: #a65a17;
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 1.4px;
   font-weight: 700;
 }
@@ -1065,14 +1065,14 @@ dd {
 .hero h2 {
   max-width: 720px;
   color: #153f66;
-  font-size: 43px;
+  font-size: 2.6875rem;
   line-height: 1.15;
   margin: 12px 0 20px;
 }
 
 .hero-description {
   max-width: 680px;
-  font-size: 17px;
+  font-size: 1.0625rem;
   line-height: 1.7;
   color: #56616a;
 }
@@ -1115,7 +1115,7 @@ dd {
 .quick-service > span {
   color: #a35c1b;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .quick-service strong {
@@ -1124,7 +1124,7 @@ dd {
 
 .quick-service p {
   margin: 4px 0 0;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #69737d;
 }
 
@@ -1142,7 +1142,7 @@ dd {
 .security-section h2,
 .portal-cta h2 {
   color: #153f66;
-  font-size: 30px;
+  font-size: 1.875rem;
   margin: 7px 0 10px;
 }
 
@@ -1161,14 +1161,14 @@ dd {
 
 .service-number {
   color: #a55b19;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   margin-bottom: 24px;
 }
 
 .service-card h3 {
   color: #17456d;
-  font-size: 17px;
+  font-size: 1.0625rem;
 }
 
 .service-card p {
@@ -1256,7 +1256,7 @@ dd {
 
 .footer-grid strong {
   color: #ffffff;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .footer-grid p {
@@ -1267,7 +1267,7 @@ dd {
   margin-top: 25px;
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: #b9c8d4;
 }
 
@@ -1332,7 +1332,7 @@ dd {
 
 .minimal-brand span {
   color: #737d86;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 
 .minimal-login-main {
@@ -1356,7 +1356,7 @@ dd {
 
 .login-card-header h1 {
   color: #143f68;
-  font-size: 29px;
+  font-size: 1.8125rem;
   margin: 5px 0 8px;
 }
 
@@ -1389,7 +1389,7 @@ dd {
   background: #f1f5f7;
   border-left: 3px solid #138808;
   padding: 12px;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #59646d;
 }
 
@@ -1398,7 +1398,7 @@ dd {
   padding: 18px;
   background: #143a5b;
   color: #bfcdd8;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 
 @media (max-width: 850px) {
@@ -1414,7 +1414,7 @@ dd {
   }
 
   .hero h2 {
-    font-size: 34px;
+    font-size: 2.125rem;
   }
 }
 
@@ -1433,11 +1433,11 @@ dd {
   }
 
   .public-brand h1 {
-    font-size: 23px;
+    font-size: 1.4375rem;
   }
 
   .public-brand p {
-    font-size: 11px;
+    font-size: 0.6875rem;
   }
 
   .header-login-button {
@@ -1457,7 +1457,7 @@ dd {
   }
 
   .hero h2 {
-    font-size: 30px;
+    font-size: 1.875rem;
   }
 
   .service-grid {
@@ -1478,3 +1478,8 @@ dd {
     padding: 25px;
   }
 }
+
+/* Shared registration uses the redesigned login card. */
+.minimal-login-card select { width: 100%; min-height: 44px; }
+.minimal-login-card .account-switch { display: block; margin: 20px auto 0; color: var(--primary); background: transparent; }
+.registration-note { color: var(--text-secondary); font-size: .8rem; line-height: 1.6; margin-top: 16px; }

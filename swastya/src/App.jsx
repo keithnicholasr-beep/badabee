@@ -7,6 +7,8 @@ import { ErrorBox } from "./ui";
 import { human } from "./format";
 import VictimDashboard from "./victim";
 import "./App.css";
+import Profile, { Avatar } from "./Profile";
+import { useProfile } from "./useProfile";
 function PublicHome({ onLoginClick }) {
   return (
     <div className="public-site">
@@ -294,7 +296,16 @@ function PublicHome({ onLoginClick }) {
 }
 
 function Login({ onLogin, onBack }) {
+  const [signup, setSignup] = useState(false);
+  const [locations, setLocations] = useState([]);
+  const [locationError, setLocationError] = useState("");
   const [error, setError] = useState("");
+  useEffect(() => {
+    let active = true;
+    api("/auth/registration-options").then(rows => { if (active) setLocations(rows); })
+      .catch(err => { if (active) setLocationError(err.message); });
+    return () => { active = false; };
+  }, []);
   const [busy, setBusy] = useState(false);
 
   async function submit(event) {
@@ -306,6 +317,13 @@ function Login({ onLogin, onBack }) {
     setBusy(true);
 
     try {
+      if (signup) {
+        if (values.password !== values.confirmation) throw new Error("Passwords do not match.");
+        await post("/auth/register", {
+          name: values.name, email: values.email, password: values.password,
+          district_id: values.district_id, language: values.language,
+        });
+      }
       const result = await post("/auth/login", {
         email: values.email,
         password: values.password,
@@ -345,12 +363,19 @@ function Login({ onLogin, onBack }) {
       <main className="minimal-login-main">
         <section className="minimal-login-card">
           <div className="login-card-header">
-            <p className="section-tag">SECURE LOGIN</p>
-            <h1>Sign in</h1>
-            <p>Enter your registered credentials to continue.</p>
+            <p className="section-tag">{signup ? "CREATE ACCOUNT" : "SECURE LOGIN"}</p>
+            <h1>{signup ? "Create your account" : "Sign in"}</h1>
+            <p>{signup ? "Register to access your personal support dashboard." : "Enter your registered credentials to continue."}</p>
           </div>
 
-          <form onSubmit={submit}>
+          <form key={String(signup)} onSubmit={submit}>
+            {signup && <>
+              <label>Full name<input name="name" autoComplete="name" required minLength={2} maxLength={120} /></label>
+              <label>District<select name="district_id" required defaultValue=""><option value="" disabled>Select your district</option>{locations.map(item => <option key={item.district_id} value={item.district_id}>{item.district}, {item.state}</option>)}</select></label>
+              <label>Preferred language<select name="language" defaultValue="English">{["English", "Hindi", "Tamil", "Kannada", "Telugu", "Malayalam", "Marathi", "Bengali"].map(value => <option key={value}>{value}</option>)}</select></label>
+              <ErrorBox error={locationError} />
+              {!locations.length && !locationError && <p role="status">Loading districts…</p>}
+            </>}
             <label>
               Email address
               <input
@@ -367,22 +392,27 @@ function Login({ onLogin, onBack }) {
               <input
                 name="password"
                 type="password"
-                autoComplete="current-password"
+                autoComplete={signup ? "new-password" : "current-password"}
+                minLength={signup ? 12 : 1}
+                maxLength={256}
                 placeholder="Enter your password"
                 required
               />
             </label>
 
+            {signup && <label>Confirm password<input name="confirmation" type="password" autoComplete="new-password" required minLength={12} maxLength={256} /><small>Use at least 12 characters.</small></label>}
             <ErrorBox error={error} />
 
             <button
               className="login-submit-button"
               type="submit"
-              disabled={busy}
+              disabled={busy || (signup && !locations.length)}
             >
-              {busy ? "Signing in..." : "Login"}
+              {busy ? (signup ? "Creating account…" : "Signing in…") : (signup ? "Create account" : "Login")}
             </button>
           </form>
+          <button className="account-switch" type="button" disabled={busy} onClick={() => { setError(""); setSignup(value => !value); }}>{signup ? "Already registered? Sign in" : "New here? Create an account"}</button>
+          {signup && <p className="registration-note">Public signup creates a victim account. Legal officers, counsellors and administrators receive staff accounts from the platform administrator.</p>}
 
           <div className="login-security-message">
             🔒 Secure role-based access
@@ -403,6 +433,8 @@ function App() {
     [page, setPage] = useState("Overview"),
     [selectedCase, setSelectedCase] = useState(null),
     [notice, setNotice] = useState("");
+
+  const profileProps = useProfile(user, setUser);
 
   function logout() {
     setToken(null);
@@ -459,6 +491,7 @@ function App() {
         key={user.id}
         user={user}
         onLogout={logout}
+        profileProps={profileProps}
       />
     );
   }
@@ -467,7 +500,8 @@ function App() {
   if (!legal && !admin)
     return (
       <main className="unsupported">
-        <h1>Signed in securely</h1>
+        <button onClick={() => setPage(page === "Profile" ? "Overview" : "Profile")}>{page === "Profile" ? "Back" : "My profile & settings"}</button>
+        {page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : <h1>Signed in securely</h1>}
         <p>
           Your {human(user.role)} account can use the shared API. Its dashboard
           is being developed separately.
@@ -516,6 +550,7 @@ function App() {
           ))}
         </nav>
         <div className="sidebar-bottom">
+          <button className="profile-nav" onClick={() => navigate("Profile")} aria-current={page === "Profile" ? "page" : undefined}><Avatar name={user.name} photo={profileProps.profile?.photo} /> My profile & settings</button>
           <div className="secure-dot">● Secure access</div>
           <p>{human(user.role)}</p>
           <button onClick={logout}>Sign out</button>
@@ -541,7 +576,7 @@ function App() {
           </div>
         </header>
         <main className="content">
-          {selectedCase ? (
+          {page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : selectedCase ? (
             <CaseDetail
               caseId={selectedCase}
               onBack={() => setSelectedCase(null)}

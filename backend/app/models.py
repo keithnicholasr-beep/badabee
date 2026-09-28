@@ -284,3 +284,14 @@ class AuditLog(Record, Base):
     resource_id: Mapped[str | None] = mapped_column(String(120))
     outcome: Mapped[str] = mapped_column(String(40), default='SUCCESS')
 
+
+
+class UserSettings(Record, Base):
+    __tablename__ = 'user_settings'
+    user_id: Mapped[str] = mapped_column(ForeignKey('users.id'), unique=True)
+    photo: Mapped[str | None] = mapped_column(Text)
+    language: Mapped[str] = mapped_column(String(60), default='English')
+    theme: Mapped[str] = mapped_column(String(20), default='system')
+    text_size: Mapped[str] = mapped_column(String(20), default='standard')
+    high_contrast: Mapped[bool] = mapped_column(Boolean, default=False)
+    reduced_motion: Mapped[bool] = mapped_column(Boolean, default=False)
