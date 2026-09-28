@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { api } from "./api";
+import { readPreferences, savePreferences } from "./preferences";
 
 export function useProfile(user, setUser) {
+  const [guestPreferences, setGuestPreferences] = useState(readPreferences);
   const [state, setState] = useState({ id: null, profile: null, error: "" });
   const [attempt, setAttempt] = useState(0);
   const id = user?.id;
@@ -15,21 +17,26 @@ export function useProfile(user, setUser) {
   }, [id, attempt]);
   useEffect(() => {
     const root = document.documentElement;
+    const preferences = profile || guestPreferences;
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     function apply() {
-      root.dataset.theme = profile?.theme === "system" ? (media.matches ? "dark" : "light") : (profile?.theme || "light");
-      root.dataset.textSize = profile?.text_size || "standard";
-      root.dataset.contrast = String(profile?.high_contrast || false);
-      root.dataset.reduceMotion = String(profile?.reduced_motion || false);
+      root.dataset.theme = preferences.theme === "system" ? (media.matches ? "dark" : "light") : preferences.theme;
+      root.dataset.textSize = preferences.text_size || "standard";
+      root.dataset.contrast = String(preferences.high_contrast || false);
+      root.dataset.reduceMotion = String(preferences.reduced_motion || false);
     }
     apply();
     media.addEventListener("change", apply);
     return () => media.removeEventListener("change", apply);
-  }, [profile]);
+  }, [profile, guestPreferences]);
   function onUpdate(value) {
     setState({ id, profile: value, error: "" });
     setUser(previous => previous?.id === id ? { ...previous, name: value.name, email: value.email } : previous);
   }
-  return { profile, profileError: error, onUpdate, onRetry: () => setAttempt(x => x + 1) };
+  function onGuestPreferencesChange(value) {
+    setGuestPreferences(value);
+    return savePreferences(value);
+  }
+  return { guestPreferences, onGuestPreferencesChange, profile, profileError: error, onUpdate, onRetry: () => setAttempt(x => x + 1) };
 }
 

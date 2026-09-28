@@ -5,7 +5,7 @@ export function setToken(value) {
 export async function api(path, options = {}) {
   const requestToken = token;
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL || "/api"}${path}`,
+    `${import.meta.env?.VITE_API_URL || "/api"}${path}`,
     {
       ...options,
       headers: {

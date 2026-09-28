@@ -1,12 +1,15 @@
+import SiteFooter from "./SiteFooter";
+import DashboardHeader from "./DashboardHeader";
 import { useEffect, useState } from "react";
 import { api } from "./api";
 import { Badge, ErrorBox } from "./ui";
 import { human, date } from "./format";
-import Profile, { Avatar } from "./Profile";
+import Profile from "./Profile";
 import Home from "./Home";
 import { Directory } from "./Resources";
 
 export default function VictimDashboard({ user, onLogout, profileProps }) {
+  const [homeSection, setHomeSection] = useState(null);
   const [page, setPage] = useState("Home");
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -44,7 +47,6 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
   }
 
   const pages = [
-    "Home",
     "Overview",
     "My cases",
     "Follow-ups",
@@ -61,9 +63,8 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
 
   return (
     <div className="app-shell">
+<DashboardHeader onProfile={() => setPage("Profile")} profileActive={page === "Profile"} user={user} photo={profileProps.profile?.photo} onNavigate={id => { setPage("Home"); setHomeSection({ id }); }} />
       <aside className="sidebar">
-        <div className="brand">SWASTYA</div>
-        <p className="sidebar-label">YOUR SUPPORT SPACE</p>
 
         <nav aria-label="Victim dashboard">
           {pages.map((item) => (
@@ -80,15 +81,13 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
         </nav>
 
         <div className="sidebar-bottom">
-          <button className="profile-nav" onClick={() => setPage("Profile")} aria-current={page === "Home" ? <Home user={user} onLoginClick={() => setPage("Overview")} /> : page === "Profile" ? "page" : undefined}><Avatar name={user.name} photo={profileProps.profile?.photo} /> My profile & settings</button>
-          <p>{user.name}</p>
           <button onClick={onLogout}>Sign out</button>
         </div>
       </aside>
 
       <div className="workspace">
         <main className={page === "Home" ? "dashboard-home-content" : "content"}>
-          {page === "Home" ? <Home user={user} onLoginClick={() => setPage("Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={onLogout} /> : <>
+          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => setPage("Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={onLogout} /> : <>
           <div className="page-heading">
             <div>
               <p className="eyebrow">YOUR SUPPORT SPACE</p>
@@ -279,6 +278,7 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
           )}
           </>}
         </main>
+        {page !== "Home" && <SiteFooter compact />}
       </div>
     </div>
   );

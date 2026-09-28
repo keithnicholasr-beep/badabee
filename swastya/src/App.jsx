@@ -1,17 +1,19 @@
+import SupportPages from "./SupportPages";
+import SiteFooter from "./SiteFooter";
+import DashboardHeader from "./DashboardHeader";
 import { useEffect, useState } from "react";
 import { api, post, setToken } from "./api";
 import { LegalDashboard, CaseDetail } from "./Legal";
 import { AdminDashboard } from "./Admin";
 import { Directory, Schemes, Alerts } from "./Resources";
 import { ErrorBox } from "./ui";
-import { human } from "./format";
 import VictimDashboard from "./victim";
 import "./App.css";
 import Home from "./Home";
-import Profile, { Avatar } from "./Profile";
+import Profile from "./Profile";
 import { useProfile } from "./useProfile";
-function Login({ onLogin, onBack, notice }) {
-  const [signup, setSignup] = useState(false);
+function Login({ onLogin, onBack, notice, initialSignup = false }) {
+  const [signup, setSignup] = useState(initialSignup);
   const [locations, setLocations] = useState([]);
   const [locationError, setLocationError] = useState("");
   const [error, setError] = useState("");
@@ -66,11 +68,11 @@ function Login({ onLogin, onBack, notice }) {
         </button>
 
         <div className="minimal-brand">
-          <div className="minimal-logo">S</div>
+
 
           <div>
             <strong>SWASTYA</strong>
-            <span>Secure Portal</span>
+
           </div>
         </div>
       </div>
@@ -148,11 +150,25 @@ function App() {
     [notice, setNotice] = useState("");
 
   const profileProps = useProfile(user, setUser);
+  const [homeSection, setHomeSection] = useState(null);
+  const [initialSignup, setInitialSignup] = useState(false);
+  const [supportPage, setSupportPage] = useState(() => window.location.hash.slice(2));
+  useEffect(() => {
+    const changed = () => setSupportPage(window.location.hash.slice(2));
+    window.addEventListener("hashchange", changed);
+    return () => window.removeEventListener("hashchange", changed);
+  }, []);
+  const supportRoute = ["privacy", "accessibility", "help", "help/contact"].includes(supportPage) ? supportPage : "";
+  useEffect(() => {
+    document.title = supportRoute ? `${supportRoute === "privacy" ? "Privacy policy" : supportRoute === "accessibility" ? "Accessibility" : "Help centre"} | SWASTYA` : "SWASTYA | Support coordination";
+    window.scrollTo(0, 0);
+  }, [supportRoute]);
 
   function logout() {
     setToken(null);
     setUser(null);
     setShowLogin(false);
+    setInitialSignup(false);
     setSelectedCase(null);
     setPage("Home");
   }
@@ -168,6 +184,8 @@ function App() {
     return () => window.removeEventListener("session-expired", expired);
   }, []);
 
+  if (supportRoute) return <SupportPages page={supportRoute} user={user} profileProps={profileProps} />;
+
   if (!user) {
     if (!showLogin) {
       return (
@@ -175,8 +193,10 @@ function App() {
           <ErrorBox error={notice} />
 
           <Home
+            onSignupClick={() => { setNotice(""); setInitialSignup(true); setShowLogin(true); }}
             onLoginClick={() => {
               setNotice("");
+              setInitialSignup(false);
               setShowLogin(true);
             }}
           />
@@ -186,6 +206,7 @@ function App() {
 
     return (
       <Login
+        initialSignup={initialSignup}
         notice={notice}
         onBack={() => {
           setNotice("");
@@ -213,29 +234,17 @@ function App() {
   const legal = user.role === "LEGAL_OFFICER",
     admin = user.role.endsWith("_ADMIN");
   const links = legal
-    ? ["Home", "Overview", "Cases"]
-    : admin ? ["Home", "Overview", ...(user.role !== "NATIONAL_ADMIN" ? ["Alerts"] : []), "NGO directory", "Government schemes"]
-    : ["Home"];
+    ? ["Overview", "Cases"]
+    : admin ? ["Overview", ...(user.role !== "NATIONAL_ADMIN" ? ["Alerts"] : []), "NGO directory", "Government schemes"]
+    : [];
   function navigate(name) {
     setPage(name);
     setSelectedCase(null);
   }
   return (
     <div className="app-shell">
+<DashboardHeader onProfile={() => navigate("Profile")} profileActive={page === "Profile"} user={user} photo={profileProps.profile?.photo} onNavigate={id => { navigate("Home"); setHomeSection({ id }); }} />
       <aside className="sidebar">
-        <a
-          className="brand"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("Home");
-          }}
-        >
-          SWASTYA
-        </a>
-        <p className="sidebar-label">
-          {legal ? "LEGAL WORKSPACE" : admin ? "ADMINISTRATION" : "COUNSELLOR WORKSPACE"}
-        </p>
         <nav>
           {links.map((link, i) => (
             <button
@@ -243,39 +252,19 @@ function App() {
               className={page === link ? "nav-link active" : "nav-link"}
               onClick={() => navigate(link)}
             >
-              <span aria-hidden="true">{["⌂", "◫", "▤", "◎", "▧"][i]}</span>
+              <span aria-hidden="true">{["◫", "▤", "◎", "▧"][i]}</span>
               {link}
             </button>
           ))}
         </nav>
         <div className="sidebar-bottom">
-          <button className="profile-nav" onClick={() => navigate("Profile")} aria-current={page === "Profile" ? "page" : undefined}><Avatar name={user.name} photo={profileProps.profile?.photo} /> My profile & settings</button>
           <div className="secure-dot">● Secure access</div>
-          <p>{human(user.role)}</p>
           <button onClick={logout}>Sign out</button>
         </div>
       </aside>
       <div className="workspace">
-        <header className="topbar">
-          <span>
-            Support coordination <span className="muted">/ {page}</span>
-          </span>
-          <div className="profile">
-            <span className="avatar">
-              {user.name
-                .split(" ")
-                .slice(0, 2)
-                .map((s) => s[0])
-                .join("")}
-            </span>
-            <div>
-              <strong>{user.name}</strong>
-              <small>{human(user.role)}</small>
-            </div>
-          </div>
-        </header>
         <main className={page === "Home" ? "dashboard-home-content" : "content"}>
-          {page === "Home" ? <Home user={user} onLoginClick={() => navigate(user.role === "COUNSELLOR" ? "Profile" : "Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : selectedCase ? (
+          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => navigate(user.role === "COUNSELLOR" ? "Profile" : "Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : selectedCase ? (
             <CaseDetail
               caseId={selectedCase}
               onBack={() => setSelectedCase(null)}
@@ -295,7 +284,7 @@ function App() {
             <AdminDashboard user={user} />
           )}
         </main>
-        <footer>Sensitive information • Access is recorded</footer>
+        {page !== "Home" && <SiteFooter compact />}
       </div>
     </div>
   );

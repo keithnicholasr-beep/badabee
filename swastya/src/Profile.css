@@ -20,18 +20,18 @@ html[data-text-size="large"] { font-size: 18px; }
 html[data-text-size="extra-large"] { font-size: 20px; }
 html[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #111b18; --surface: #1c2924; --surface-soft: #22332b;
-  --text: #eff8f2; --text-secondary: #bfd1c6; --text-muted: #afc4b7;
-  --border: #52665a; --border-strong: #758b7d;
-  --primary: #6bd9ac; --primary-hover: #92edc7; --primary-light: #294d3d;
-  --success-bg: #193d2a; --success: #a2edb4;
+  --bg: #11161b; --surface: #1c2329; --surface-soft: #222b33;
+  --text: #eff4f8; --text-secondary: #bfc9d1; --text-muted: #afbac4;
+  --border: #525d66; --border-strong: #75818b;
+  --primary: #6ba6d9; --primary-hover: #92c3ed; --primary-light: #293c4d;
+  --success-bg: #192c3d; --success: #a2caed;
   --warning-bg: #443719; --warning: #ffe0a0;
   --danger-bg: #4a2526; --danger: #ffbaba;
   --info-bg: #20364c; --info: #b5d9ff;
 }
 html[data-theme="dark"] :is(.topbar, input, select, textarea, button, table th, table td, .list-item) { background-color: var(--surface); color: var(--text); border-color: var(--border); }
 html[data-theme="dark"] :is(.muted, .metric span, .profile small, footer, .timeline, .tabs button) { color: var(--text-secondary); }
-html[data-theme="dark"] :is(button.primary, .primary) { background: #24604f; color: #fff; }
+html[data-theme="dark"] :is(button.primary, .primary) { background: #244460; color: #fff; }
 html[data-theme="dark"] .sidebar button { background: transparent; color: #fff; }
 html[data-theme="dark"] .sidebar button:hover { background: var(--sidebar-hover); }
 html[data-contrast="true"] { --text: #000; --text-secondary: #000; --text-muted: #000; --bg: #fff; --surface: #fff; --surface-soft: #fff; --border: #000; --border-strong: #000; }

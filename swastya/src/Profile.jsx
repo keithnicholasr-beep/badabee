@@ -49,7 +49,7 @@ function ProfileForm({ profile, onUpdate, onLogout }) {
     });
   }
   return <div className="profile-settings">
-    <div className="page-heading"><div><p className="eyebrow">YOUR ACCOUNT</p><h1>My profile & settings</h1><p className="muted">Manage your details, preferences and account security.</p></div></div>
+    <div className="page-heading"><div><p className="eyebrow">YOUR ACCOUNT</p><h1>My Profile</h1><p className="muted">Manage your details, preferences and account security.</p></div></div>
     <ErrorBox error={error} />
     {message && <p className="settings-success" role="status">{message}</p>}
     <section className="panel pad">

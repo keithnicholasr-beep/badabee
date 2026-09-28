@@ -1,34 +1,32 @@
-export default function Home({ onLoginClick, user }) {
+import SiteFooter from "./SiteFooter";
+import { useEffect } from "react";
+export default function Home({ onLoginClick, onSignupClick, user, section }) {
+  useEffect(() => {
+    if (section?.id) document.getElementById(section.id)?.scrollIntoView({ block: "start" });
+  }, [section]);
   const restricted = ["LEGAL_OFFICER", "COUNSELLOR"].includes(user?.role);
-  const action = user ? (user.role === "COUNSELLOR" ? "Open my profile" : "Open my dashboard") : "Login to Portal";
+  const action = user ? (user.role === "COUNSELLOR" ? "Open my profile" : "Open my dashboard") : "Login";
   return (
     <div className={user ? "public-site dashboard-home" : "public-site"}>
 
 
-      {!user && <header className="public-header">
+      {!user && <div className="public-home-header"><header className="public-header">
         <div className="public-container header-inner">
-          <div className="public-logo">S</div>
 
           <div className="public-brand">
-            <small>Integrated Citizen Support Platform</small>
             <h1>SWASTYA</h1>
-            <p>Victim Support & Case Coordination Platform</p>
           </div>
 
-          <button
+          <div className="header-auth-actions"><button
             className="header-login-button"
             onClick={onLoginClick}
           >
             Login
           </button>
+          <button className="header-login-button header-signup-button" onClick={onSignupClick}>Sign up</button></div>
         </div>
-      </header>}
+      </header>
 
-      <div className="public-tricolour">
-        <span />
-        <span />
-        <span />
-      </div>
 
       <nav className="public-nav">
         <div className="public-container nav-inner">
@@ -38,7 +36,7 @@ export default function Home({ onLoginClick, user }) {
           <a href="#security">Security</a>
           <a href="#support">Support</a>
         </div>
-      </nav>
+      </nav></div>}
 
       <div className="home-sections">
         <section className="hero" id="home">
@@ -57,13 +55,6 @@ export default function Home({ onLoginClick, user }) {
               </p>
 
               <div className="hero-actions">
-                <button
-                  className="main-login-button"
-                  onClick={onLoginClick}
-                >
-                  {action}
-                </button>
-
                 <a href="#services" className="secondary-link">
                   Explore Services
                 </a>
@@ -258,27 +249,7 @@ export default function Home({ onLoginClick, user }) {
         </section>
       </div>
 
-      <footer className="public-footer">
-        <div className="public-container footer-grid">
-          <div>
-            <strong>SWASTYA</strong>
-            <p>
-              Victim Support & Case Coordination Platform
-            </p>
-          </div>
-
-          <div>
-            <span>Privacy</span>
-            <span>Accessibility</span>
-            <span>Help</span>
-            <span>Contact</span>
-          </div>
-        </div>
-
-        <div className="public-container footer-bottom">
-          Not an official Government of India production website.
-        </div>
-      </footer>
+      <SiteFooter showBrand={!user} />
     </div>
   );
 }
