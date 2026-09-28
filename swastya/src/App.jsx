@@ -29,13 +29,13 @@ function Login({ onLogin }) {
   return (
     <div className="login-layout">
       <section className="welcome">
-        <div className="brand">✳ badabee</div>
+        <div className="brand">SWASTYA</div>
         <div>
           <p className="eyebrow">SUPPORT. PROTECT. RESTORE.</p>
           <h1>
-            A clearer path
+            Support when
             <br />
-            to coordinated care.
+            it matters most.
           </h1>
           <p>
             Bring legal support, case progress, and public services together in
@@ -46,9 +46,7 @@ function Login({ onLogin }) {
       </section>
       <main className="login-panel">
         <form onSubmit={submit}>
-          <p className="eyebrow">YOUR SECURE WORKSPACE</p>
-          <h2>Welcome back</h2>
-          <p className="muted">Sign in with your assigned account.</p>
+          <h2>Welcome</h2>
           <label>
             Email
             <input name="email" type="email" autoComplete="username" required />
