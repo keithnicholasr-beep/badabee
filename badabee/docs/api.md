@@ -109,3 +109,7 @@ Response: `jurisdiction,cases_monitored,high_risk_cases,critical_alerts,followup
 ## Error handling
 
 401 missing/invalid/expired credentials; 403 role/jurisdiction violation; 404 missing or inaccessible record; 409 duplicate/reference conflict; 422 invalid input; 429 login throttle; 500 generic unexpected error. Raw SQL, credentials and exception payloads are not returned. All responses use `Cache-Control: no-store`. Paginated lists use stable ordering. Frontend shows loading, empty and error states and redirects to login on 401.
+
+## Support portal extension
+
+See [SUPPORT-HANDOFF.md](SUPPORT-HANDOFF.md) for the `/portal/*` contracts, demo provider boundaries and reminders. Existing authentication and role-scoping contracts are preserved.

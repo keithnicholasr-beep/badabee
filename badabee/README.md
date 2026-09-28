@@ -1,6 +1,6 @@
 # Badabee — support coordination MVP
 
-React → one modular FastAPI application → PostgreSQL. This extends the existing `swastya/` React 19 / Vite 8 application. It implements legal case coordination, jurisdiction-filtered administration, NGO matching, scheme rules, and shared support API contracts. It does not implement a prediction model, victim dashboard, or counsellor dashboard.
+React → one modular FastAPI application → PostgreSQL. This extends the existing `swastya/` React 19 / Vite 8 application. It implements legal case coordination, jurisdiction-filtered administration, NGO matching, scheme rules, and shared support API contracts. The support-portal extension adds victim and counsellor dashboards, saved check-ins, rule-based demo risk assessment, grounded support chat and care workflows. See [the support handoff](docs/SUPPORT-HANDOFF.md) for setup, contracts and explicit demo limitations.
 
 ## Run locally
 
@@ -58,8 +58,8 @@ Use the password you selected in `DEMO_PASSWORD`.
 | `district1@demo.invalid` | Chennai |
 | `state1@demo.invalid` | Tamil Nadu |
 | `national@demo.invalid` | National aggregates, with optional narrower filters |
-| `counsellor1@demo.invalid` | Assigned victims; shared API only |
-| `victim1@demo.invalid` | Own records; shared API only |
+| `counsellor1@demo.invalid` | Assigned-victim counsellor portal |
+| `victim1@demo.invalid` | Own victim portal |
 
 District/Legal/Counsellor accounts 1–3 belong to Tamil Nadu, 4–6 to Karnataka, and 7–9 to Kerala. State accounts 1–3 follow that order. Tokens are held in browser memory and expire after 30 minutes; reloading requires login.
 

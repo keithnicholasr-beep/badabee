@@ -6,6 +6,7 @@ import { Directory, Schemes, Alerts } from "./Resources";
 import { ErrorBox } from "./ui";
 import { human } from "./format";
 import "./App.css";
+import SupportPortal from "./support/SupportPortal";
 
 function Login({ onLogin }) {
   const [error, setError] = useState(""),
@@ -106,6 +107,8 @@ function App() {
         />
       </>
     );
+  if (user.role === "VICTIM" || user.role === "COUNSELLOR")
+    return <SupportPortal user={user} onLogout={logout} />;
   const legal = user.role === "LEGAL_OFFICER",
     admin = user.role.endsWith("_ADMIN");
   if (!legal && !admin)

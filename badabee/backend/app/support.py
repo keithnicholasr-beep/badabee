@@ -1,7 +1,7 @@
 from .responses import AcknowledgementOut, AlertOut, CaseOut, FollowupOut, PredictionOut, VictimOut
 from typing import Annotated
 from fastapi import APIRouter, HTTPException, Depends, Header, Query
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from .models import *
 from .security import DB, Actor, get_victim, victim_scope, case_scope, roles, audit, ingest_auth
 from .schemas import FollowupInput, FollowupUpdate, PredictionInput
@@ -74,6 +74,7 @@ def update_followup(followup_id: str, payload: FollowupUpdate, db: DB, user: Act
     if row is None:
         raise HTTPException(404, 'Followup not found')
     row.status = payload.status
+    row.completed_at = (row.completed_at or now()) if payload.status == 'COMPLETED' else None
     audit(db, user, 'UPDATE', 'followup', row.id)
     return fields(row, 'id', 'victim_id', 'counsellor_id', 'due_at', 'status')
 
@@ -140,7 +141,7 @@ def ingest(payload: PredictionInput, db: DB, idempotency_key: Annotated[str, Hea
 def notifications(db: DB, user: Actor):
     # Re-check assignments when reading previously generated notifications.
     permitted = select(Alert.id).where(Alert.victim_id.in_(select(Victim.id).where(victim_scope(user, clinical=True))))
-    stmt = select(Notification).where(Notification.user_id == user.id, Notification.alert_id.in_(permitted),
+    stmt = select(Notification).where(Notification.user_id == user.id, or_(Notification.alert_id.is_(None), Notification.alert_id.in_(permitted)),
              Notification.id.in_(select(NotificationOutbox.notification_id).where(NotificationOutbox.status == 'DELIVERED')))
     return [fields(x, 'id', 'title', 'alert_id', 'read_at', 'created_at') for x in db.scalars(stmt.order_by(Notification.created_at.desc()).limit(100))]
 
