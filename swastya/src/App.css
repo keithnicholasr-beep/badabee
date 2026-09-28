@@ -903,6 +903,578 @@ dd {
     font-size: 28px;
   }
 }
+
 .victim-section {
   margin-top: 20px;
+}
+
+/* =========================================================
+   SWASTHYA PUBLIC GOVERNMENT PORTAL
+   ========================================================= */
+
+.public-site {
+  min-height: 100vh;
+  background: #f6f7f9;
+  color: #202b36;
+}
+
+.public-container {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.public-topbar {
+  background: #eeeeee;
+  border-bottom: 1px solid #d5d8dc;
+  color: #4a5158;
+  font-size: 12px;
+}
+
+.public-topbar .public-container {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.public-accessibility {
+  display: flex;
+  gap: 14px;
+}
+
+.public-header {
+  background: #ffffff;
+}
+
+.header-inner {
+  min-height: 105px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.public-logo {
+  width: 65px;
+  height: 65px;
+  border: 2px solid #174b78;
+  display: grid;
+  place-items: center;
+  color: #174b78;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.public-brand {
+  flex: 1;
+}
+
+.public-brand small {
+  color: #69737c;
+}
+
+.public-brand h1 {
+  margin: 1px 0;
+  color: #143f68;
+  font-size: 31px;
+  letter-spacing: 1px;
+}
+
+.public-brand p {
+  margin: 0;
+  color: #4e5963;
+}
+
+.header-login-button,
+.main-login-button {
+  background: #174f7e;
+  border: 1px solid #174f7e;
+  color: #ffffff;
+  border-radius: 2px;
+  padding: 11px 24px;
+}
+
+.header-login-button:hover,
+.main-login-button:hover {
+  background: #103c63;
+}
+
+.public-tricolour {
+  height: 5px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.public-tricolour span:nth-child(1) {
+  background: #ff9933;
+}
+
+.public-tricolour span:nth-child(2) {
+  background: #ffffff;
+}
+
+.public-tricolour span:nth-child(3) {
+  background: #138808;
+}
+
+.public-nav {
+  background: #143f68;
+}
+
+.nav-inner {
+  display: flex;
+}
+
+.nav-inner a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 14px 22px;
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 13px;
+}
+
+.nav-inner a:first-child {
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.nav-inner a:hover {
+  background: #0e3254;
+}
+
+.hero {
+  background: #ffffff;
+  border-bottom: 1px solid #dce1e6;
+}
+
+.hero-grid {
+  min-height: 480px;
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 70px;
+  align-items: center;
+  padding-top: 55px;
+  padding-bottom: 55px;
+}
+
+.section-tag {
+  color: #a65a17;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  font-weight: 700;
+}
+
+.hero h2 {
+  max-width: 720px;
+  color: #153f66;
+  font-size: 43px;
+  line-height: 1.15;
+  margin: 12px 0 20px;
+}
+
+.hero-description {
+  max-width: 680px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #56616a;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.secondary-link {
+  color: #174f7e;
+  font-weight: 600;
+}
+
+.hero-info-card {
+  border: 1px solid #ccd5dd;
+  background: #f8fafb;
+}
+
+.info-card-title {
+  background: #174f7e;
+  color: #ffffff;
+  padding: 16px 20px;
+  font-weight: 600;
+}
+
+.quick-service {
+  display: flex;
+  gap: 15px;
+  padding: 20px;
+  border-bottom: 1px solid #dce2e7;
+}
+
+.quick-service:last-child {
+  border-bottom: 0;
+}
+
+.quick-service > span {
+  color: #a35c1b;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.quick-service strong {
+  color: #17456d;
+}
+
+.quick-service p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #69737d;
+}
+
+.services-section {
+  padding: 75px 0;
+}
+
+.section-heading {
+  max-width: 700px;
+  margin-bottom: 35px;
+}
+
+.section-heading h2,
+.platform-section h2,
+.security-section h2,
+.portal-cta h2 {
+  color: #153f66;
+  font-size: 30px;
+  margin: 7px 0 10px;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.service-card {
+  background: #ffffff;
+  border: 1px solid #d8dfe5;
+  padding: 27px;
+  min-height: 210px;
+}
+
+.service-number {
+  color: #a55b19;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.service-card h3 {
+  color: #17456d;
+  font-size: 17px;
+}
+
+.service-card p {
+  color: #65717b;
+  line-height: 1.65;
+}
+
+.platform-section {
+  background: #ffffff;
+  border-top: 1px solid #dce2e7;
+  border-bottom: 1px solid #dce2e7;
+  padding: 75px 0;
+}
+
+.platform-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 80px;
+}
+
+.platform-list > div {
+  border-bottom: 1px solid #dce2e7;
+  padding: 17px 0;
+}
+
+.platform-list strong,
+.platform-list span {
+  display: block;
+}
+
+.platform-list strong {
+  color: #17456d;
+  margin-bottom: 4px;
+}
+
+.platform-list span {
+  color: #65717b;
+}
+
+.security-section {
+  background: #eff4f8;
+  padding: 55px 0;
+}
+
+.security-content {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.security-content > p {
+  color: #596671;
+  line-height: 1.8;
+}
+
+.portal-cta {
+  background: #ffffff;
+  padding: 55px 0;
+}
+
+.cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+}
+
+.public-footer {
+  background: #143a5b;
+  color: #dce6ee;
+  padding: 35px 0 20px;
+}
+
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.footer-grid > div:last-child {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-grid strong {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.footer-grid p {
+  margin: 5px 0;
+}
+
+.footer-bottom {
+  margin-top: 25px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 11px;
+  color: #b9c8d4;
+}
+
+
+/* =========================================================
+   MINIMAL LOGIN PAGE
+   ========================================================= */
+
+.minimal-login-page {
+  min-height: 100vh;
+  background: #f3f6f8;
+  display: flex;
+  flex-direction: column;
+}
+
+.minimal-login-header {
+  min-height: 80px;
+  background: #ffffff;
+  border-bottom: 4px solid #174f7e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 45px;
+}
+
+.back-home-button {
+  border: 0;
+  background: transparent;
+  color: #174f7e;
+  padding: 8px 0;
+}
+
+.back-home-button:hover {
+  background: transparent;
+  text-decoration: underline;
+}
+
+.minimal-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.minimal-logo {
+  width: 39px;
+  height: 39px;
+  border: 1px solid #174f7e;
+  color: #174f7e;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.minimal-brand strong,
+.minimal-brand span {
+  display: block;
+}
+
+.minimal-brand strong {
+  color: #143f68;
+}
+
+.minimal-brand span {
+  color: #737d86;
+  font-size: 11px;
+}
+
+.minimal-login-main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 45px 20px;
+}
+
+.minimal-login-card {
+  width: min(430px, 100%);
+  background: #ffffff;
+  border: 1px solid #ccd5dd;
+  box-shadow: 0 5px 18px rgba(28, 48, 65, 0.08);
+  padding: 35px;
+}
+
+.login-card-header {
+  margin-bottom: 25px;
+}
+
+.login-card-header h1 {
+  color: #143f68;
+  font-size: 29px;
+  margin: 5px 0 8px;
+}
+
+.login-card-header p:last-child {
+  color: #69737d;
+}
+
+.minimal-login-card input {
+  border-radius: 2px;
+  min-height: 45px;
+  border-color: #aeb8c1;
+}
+
+.login-submit-button {
+  margin-top: 12px;
+  width: 100%;
+  min-height: 45px;
+  border-radius: 2px;
+  background: #174f7e;
+  border-color: #174f7e;
+  color: #ffffff;
+}
+
+.login-submit-button:hover {
+  background: #103c63;
+}
+
+.login-security-message {
+  margin-top: 22px;
+  background: #f1f5f7;
+  border-left: 3px solid #138808;
+  padding: 12px;
+  font-size: 12px;
+  color: #59646d;
+}
+
+.minimal-login-footer {
+  text-align: center;
+  padding: 18px;
+  background: #143a5b;
+  color: #bfcdd8;
+  font-size: 11px;
+}
+
+@media (max-width: 850px) {
+  .hero-grid,
+  .platform-grid,
+  .security-content {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero h2 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 600px) {
+  .public-accessibility {
+    display: none;
+  }
+
+  .public-container {
+    width: min(100% - 30px, 1180px);
+  }
+
+  .public-logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .public-brand h1 {
+    font-size: 23px;
+  }
+
+  .public-brand p {
+    font-size: 11px;
+  }
+
+  .header-login-button {
+    padding: 9px 13px;
+  }
+
+  .nav-inner {
+    overflow-x: auto;
+  }
+
+  .nav-inner a {
+    white-space: nowrap;
+  }
+
+  .hero-grid {
+    min-height: auto;
+  }
+
+  .hero h2 {
+    font-size: 30px;
+  }
+
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-inner,
+  .footer-grid {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .minimal-login-header {
+    padding: 0 18px;
+  }
+
+  .minimal-login-card {
+    padding: 25px;
+  }
 }
