@@ -5,6 +5,7 @@ import { AdminDashboard } from "./Admin";
 import { Directory, Schemes, Alerts } from "./Resources";
 import { ErrorBox } from "./ui";
 import { human } from "./format";
+import VictimDashboard from "./victim";
 import "./App.css";
 
 function Login({ onLogin }) {
@@ -91,10 +92,9 @@ function Login({ onLogin }) {
   return (
     <div className="login-layout">
       <section className="welcome">
-        <div className="brand">✳ badabee</div>
+        <div className="brand">SWASTYA</div>
 
         <div>
-          <p className="eyebrow">SUPPORT. PROTECT. RESTORE.</p>
           <h1>
             A clearer path
             <br />
@@ -106,7 +106,7 @@ function Login({ onLogin }) {
           </p>
         </div>
 
-        <small>Victim support & case coordination</small>
+        <small></small>
       </section>
 
       <main className="login-panel">
@@ -114,9 +114,8 @@ function Login({ onLogin }) {
           key={signup ? "signup" : "login"}
           onSubmit={submit}
         >
-          <p className="eyebrow">YOUR SECURE WORKSPACE</p>
 
-          <h2>{signup ? "Create an account" : "Welcome back"}</h2>
+          <h2>{signup ? "Create an account" : "Welcome "}</h2>
 
           <p className="muted">
             {signup
@@ -289,6 +288,15 @@ function App() {
         />
       </>
     );
+  if (user.role === "VICTIM") {
+    return (
+      <VictimDashboard
+      key={user.id}
+      user={user}
+      onLogout={logout}
+      />
+    );
+  }
   const legal = user.role === "LEGAL_OFFICER",
     admin = user.role.endsWith("_ADMIN");
   if (!legal && !admin)
@@ -325,7 +333,7 @@ function App() {
             navigate("Overview");
           }}
         >
-          ✳ badabee
+          SWASTYA
         </a>
         <p className="sidebar-label">
           {legal ? "LEGAL WORKSPACE" : "ADMINISTRATION"}

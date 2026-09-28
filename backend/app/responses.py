@@ -18,6 +18,7 @@ class UserOut(BaseModel):
     role: Role
     district_id: str | None
     state_id: str | None
+    victim_id: str | None = None
 
 
 class TokenOut(BaseModel):

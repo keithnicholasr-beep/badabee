@@ -43,8 +43,25 @@ def login(payload: Login, request: Request, db: DB):
 
 
 @router.get('/me', response_model=UserOut)
-def me(user: Actor):
-    return fields(user, 'id', 'email', 'name', 'role', 'district_id', 'state_id')
+def me(db: DB, user: Actor):
+    result = fields(
+        user,
+        'id',
+        'email',
+        'name',
+        'role',
+        'district_id',
+        'state_id',
+    )
+
+    result['victim_id'] = None
+
+    if user.role == Role.VICTIM:
+        result['victim_id'] = db.scalar(
+            select(Victim.id).where(Victim.user_id == user.id)
+        )
+
+    return result
 
 @router.get('/registration-options', response_model=list[LocationOut])
 def registration_options(db: DB):
