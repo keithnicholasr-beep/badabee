@@ -153,6 +153,7 @@ class CounsellorAssignment(Record, Base):
 
 class Followup(Record, Base):
     __tablename__ = 'followups'
+    completed_at: Mapped[datetime | None] = mapped_column(UTCDateTime())
     victim_id: Mapped[str] = mapped_column(ForeignKey('victims.id'), index=True)
     counsellor_id: Mapped[str] = mapped_column(ForeignKey('counsellors.id'))
     due_at: Mapped[datetime] = mapped_column(UTCDateTime(), index=True)
@@ -284,3 +285,39 @@ class AuditLog(Record, Base):
     resource_id: Mapped[str | None] = mapped_column(String(120))
     outcome: Mapped[str] = mapped_column(String(40), default='SUCCESS')
 
+
+class WellbeingCheckin(Record, Base):
+    __tablename__ = 'wellbeing_checkins'
+    victim_id: Mapped[str] = mapped_column(ForeignKey('victims.id'), index=True)
+    request_id: Mapped[str] = mapped_column(String(80))
+    mood: Mapped[int] = mapped_column(Integer)
+    stress: Mapped[int] = mapped_column(Integer)
+    sleep: Mapped[int] = mapped_column(Integer)
+    feels_unsafe: Mapped[bool] = mapped_column(Boolean)
+    text: Mapped[str] = mapped_column(Text)
+    language: Mapped[str] = mapped_column(String(10))
+    prediction_id: Mapped[str] = mapped_column(ForeignKey('distress_predictions.id'))
+    __table_args__ = (UniqueConstraint('victim_id', 'request_id'), CheckConstraint('mood BETWEEN 1 AND 5 AND stress BETWEEN 1 AND 5 AND sleep BETWEEN 1 AND 5'))
+
+
+class SupportAction(Record, Base):
+    __tablename__ = 'support_actions'
+    victim_id: Mapped[str] = mapped_column(ForeignKey('victims.id'), index=True)
+    actor_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    kind: Mapped[str] = mapped_column(String(30))
+    note: Mapped[str] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(String(30), default='OPEN')
+    ngo_id: Mapped[str | None] = mapped_column(ForeignKey('ngos.id'))
+    resolved_by: Mapped[str | None] = mapped_column(ForeignKey('users.id'))
+    resolved_at: Mapped[datetime | None] = mapped_column(UTCDateTime())
+
+
+class SupportChatTurn(Record, Base):
+    __tablename__ = 'support_chat_turns'
+    victim_id: Mapped[str] = mapped_column(ForeignKey('victims.id'), index=True)
+    request_id: Mapped[str] = mapped_column(String(80))
+    message: Mapped[str] = mapped_column(Text)
+    reply: Mapped[str] = mapped_column(Text)
+    language: Mapped[str] = mapped_column(String(10))
+    intent: Mapped[str] = mapped_column(String(40))
+    __table_args__ = (UniqueConstraint('victim_id', 'request_id'),)

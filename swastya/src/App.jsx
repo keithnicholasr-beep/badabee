@@ -6,6 +6,7 @@ import { Directory, Schemes, Alerts } from "./Resources";
 import { ErrorBox } from "./ui";
 import { human } from "./format";
 import VictimDashboard from "./victim";
+import SupportPortal from "./support/SupportPortal";
 import "./App.css";
 function PublicHome({ onLoginClick }) {
   return (
@@ -473,6 +474,9 @@ function App() {
         onLogout={logout}
       />
     );
+  }
+  if (user.role === "COUNSELLOR") {
+    return <SupportPortal user={user} onLogout={logout} />;
   }
   const legal = user.role === "LEGAL_OFFICER",
     admin = user.role.endsWith("_ADMIN");

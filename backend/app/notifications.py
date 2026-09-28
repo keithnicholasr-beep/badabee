@@ -9,9 +9,13 @@ def publish_alert(db, prediction):
                   severity=prediction.level, message='Distress review requested')
     db.add(alert)
     db.flush()
+    notify_counsellors(db, alert)
+
+
+def notify_counsellors(db, alert):
     recipients = db.scalars(select(Counsellor.user_id).join(CounsellorAssignment,
                            CounsellorAssignment.counsellor_id == Counsellor.id).where(
-                           CounsellorAssignment.victim_id == prediction.victim_id, CounsellorAssignment.active.is_(True)))
+                           CounsellorAssignment.victim_id == alert.victim_id, CounsellorAssignment.active.is_(True)))
     for user_id in set(recipients):
         notification = Notification(user_id=user_id, alert_id=alert.id, title='A support review needs your attention')
         db.add(notification)

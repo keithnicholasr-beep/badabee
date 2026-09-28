@@ -3,12 +3,48 @@ import { api } from "./api";
 import { Badge, ErrorBox } from "./ui";
 import { human, date } from "./format";
 import { Directory } from "./Resources";
+import { Checkin, Chat } from "./support/Victim";
+import { Emergency, Notifications, Panel, ResourceState, useResource } from "./support/shared";
+import { supportApi } from "./support/services";
+import { dateTime, translator } from "./support/i18n";
+import "./support/support.css";
 
 export default function VictimDashboard({ user, onLogout }) {
   const [page, setPage] = useState("Overview");
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [reload, setReload] = useState(0);
+  const [lang, setLang] = useState("en");
+  const [requestBusy, setRequestBusy] = useState(false);
+  const [requestMessage, setRequestMessage] = useState("");
+  const [requestError, setRequestError] = useState("");
+  const t = translator(lang);
+  const support = useResource(
+    () => user.victim_id ? supportApi.profile(user.victim_id) : Promise.resolve({}),
+    user.victim_id,
+  );
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    return () => { document.documentElement.lang = "en"; };
+  }, [lang]);
+
+  async function requestSupport() {
+    setRequestBusy(true);
+    setRequestError("");
+    try {
+      await supportApi.action(user.victim_id, {
+        kind: "SUPPORT",
+        note: "Victim requested a counsellor follow-up.",
+      });
+      setRequestMessage(t("supportSaved"));
+      support.reload();
+    } catch (err) {
+      setRequestError(err.message);
+    } finally {
+      setRequestBusy(false);
+    }
+  }
 
   useEffect(() => {
     if (!user.victim_id) return;
@@ -39,14 +75,18 @@ export default function VictimDashboard({ user, onLogout }) {
     setError("");
     setData(null);
     setReload((value) => value + 1);
+    support.reload();
   }
 
   const pages = [
-    "Overview",
-    "My cases",
-    "Follow-ups",
-    "Schemes",
-    "Find support",
+    ["Overview", "Overview"],
+    ["My cases", "My cases"],
+    ["Follow-ups", "Follow-ups"],
+    ["Schemes", "Schemes"],
+    ["Find support", "Find support"],
+    ["checkin", t("checkin")],
+    ["chat", t("chat")],
+    ["notifications", t("notifications")],
   ];
 
   const pendingFollowups =
@@ -63,15 +103,15 @@ export default function VictimDashboard({ user, onLogout }) {
         <p className="sidebar-label">YOUR SUPPORT SPACE</p>
 
         <nav aria-label="Victim dashboard">
-          {pages.map((item) => (
+          {pages.map(([id, label]) => (
             <button
-              key={item}
+              key={id}
               className={
-                page === item ? "nav-link active" : "nav-link"
+                page === id ? "nav-link active" : "nav-link"
               }
-              onClick={() => setPage(item)}
+              onClick={() => setPage(id)}
             >
-              {item}
+              {label}
             </button>
           ))}
         </nav>
@@ -93,9 +133,18 @@ export default function VictimDashboard({ user, onLogout }) {
               </p>
             </div>
 
-            {user.victim_id && (
-              <button onClick={refresh}>Refresh</button>
-            )}
+            <div className="support-actions">
+              <label>
+                {t("language")}{" "}
+                <select value={lang} onChange={(event) => setLang(event.target.value)}>
+                  <option value="en">English</option>
+                  <option value="hi">हिन्दी</option>
+                  <option value="kn">ಕನ್ನಡ</option>
+                </select>
+              </label>
+              {user.victim_id && <Emergency victimId={user.victim_id} t={t} onSaved={support.reload} />}
+              {user.victim_id && <button onClick={refresh}>{t("refresh")}</button>}
+            </div>
           </div>
 
           {!user.victim_id ? (
@@ -171,6 +220,25 @@ export default function VictimDashboard({ user, onLogout }) {
                       Explore support organizations
                     </button>
                   </section>
+                  <Panel title={t("care")}>
+                    <ResourceState resource={support} t={t} />
+                    {support.data && (
+                      <>
+                        <p>{t(support.data.wellbeing === "EXTRA_SUPPORT" ? "wellbeingExtra" : support.data.wellbeing === "CHECK_IN" ? "wellbeingNew" : "wellbeingRecorded")}</p>
+                        <p>{t("lastCheckin")}: {dateTime(support.data.last_checkin, lang)}</p>
+                        <p>{t("nextCheckin")}: {dateTime(support.data.next_checkin, lang)}</p>
+                        {support.data.counsellors?.length ? support.data.counsellors.map((person) => (
+                          <p key={person.id}>{t("counsellor")}: {person.name} · {person.specialization}</p>
+                        )) : <p>{t("noAssignment")}</p>}
+                        <ErrorBox error={requestError} />
+                        {requestMessage && <p role="status">{requestMessage}</p>}
+                        <div className="support-actions">
+                          <button onClick={() => setPage("checkin")}>{t("begin")}</button>
+                          <button disabled={requestBusy} onClick={requestSupport}>{requestBusy ? t("saving") : t("request")}</button>
+                        </div>
+                      </>
+                    )}
+                  </Panel>
                 </>
               )}
 
@@ -270,6 +338,9 @@ export default function VictimDashboard({ user, onLogout }) {
               {page === "Find support" && (
                 <Directory victimId={user.victim_id} />
               )}
+              {page === "checkin" && <Checkin t={t} lang={lang} onSaved={refresh} />}
+              {page === "chat" && <Chat t={t} lang={lang} />}
+              {page === "notifications" && <Notifications t={t} lang={lang} />}
             </>
           )}
         </main>
