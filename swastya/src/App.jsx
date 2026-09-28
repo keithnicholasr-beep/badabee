@@ -10,19 +10,7 @@ import "./App.css";
 function PublicHome({ onLoginClick }) {
   return (
     <div className="public-site">
-      <div className="public-topbar">
-        <div className="public-container">
-          <span>SIH 2026 Prototype</span>
 
-          <div className="public-accessibility">
-            <span>Skip to Main Content</span>
-            <span>A-</span>
-            <span>A</span>
-            <span>A+</span>
-            <span>English</span>
-          </div>
-        </div>
-      </div>
 
       <header className="public-header">
         <div className="public-container header-inner">
@@ -30,7 +18,7 @@ function PublicHome({ onLoginClick }) {
 
           <div className="public-brand">
             <small>Integrated Citizen Support Platform</small>
-            <h1>SWASTHYA</h1>
+            <h1>SWASTYA</h1>
             <p>Victim Support & Case Coordination Platform</p>
           </div>
 
@@ -72,7 +60,7 @@ function PublicHome({ onLoginClick }) {
               </h2>
 
               <p className="hero-description">
-                SWASTHYA connects legal case coordination, support services,
+                SWASTYA connects legal case coordination, support services,
                 government schemes, NGO resources and administrative insights
                 through a unified digital platform.
               </p>
@@ -199,12 +187,12 @@ function PublicHome({ onLoginClick }) {
         <section className="platform-section" id="features">
           <div className="public-container platform-grid">
             <div>
-              <p className="section-tag">SWASTHYA PLATFORM</p>
+              <p className="section-tag">SWASTYA PLATFORM</p>
 
               <h2>Designed around coordinated assistance</h2>
 
               <p>
-                SWASTHYA provides different interfaces for legal officers
+                SWASTYA provides different interfaces for legal officers
                 and administrative users while enforcing jurisdiction and
                 role-based access through the backend.
               </p>
@@ -252,7 +240,7 @@ function PublicHome({ onLoginClick }) {
             </div>
 
             <p>
-              SWASTHYA uses authenticated access, jurisdiction controls,
+              SWASTYA uses authenticated access, jurisdiction controls,
               role checks, short-lived sessions and audit records to help
               protect sensitive support information.
             </p>
@@ -273,7 +261,7 @@ function PublicHome({ onLoginClick }) {
               className="main-login-button"
               onClick={onLoginClick}
             >
-              Login to SWASTHYA
+              Login to SWASTYA
             </button>
           </div>
         </section>
@@ -282,7 +270,7 @@ function PublicHome({ onLoginClick }) {
       <footer className="public-footer">
         <div className="public-container footer-grid">
           <div>
-            <strong>SWASTHYA</strong>
+            <strong>SWASTYA</strong>
             <p>
               Victim Support & Case Coordination Platform
             </p>
@@ -348,7 +336,7 @@ function Login({ onLogin, onBack }) {
           <div className="minimal-logo">S</div>
 
           <div>
-            <strong>SWASTHYA</strong>
+            <strong>SWASTYA</strong>
             <span>Secure Portal</span>
           </div>
         </div>
@@ -403,7 +391,7 @@ function Login({ onLogin, onBack }) {
       </main>
 
       <div className="minimal-login-footer">
-        SWASTHYA · SIH 2026 Prototype
+        SWASTYA · SIH 2026 Prototype
       </div>
     </div>
   );
@@ -490,11 +478,11 @@ function App() {
   const links = legal
     ? ["Overview", "Cases", "NGO directory", "Government schemes"]
     : [
-        "Overview",
-        ...(user.role !== "NATIONAL_ADMIN" ? ["Alerts"] : []),
-        "NGO directory",
-        "Government schemes",
-      ];
+      "Overview",
+      ...(user.role !== "NATIONAL_ADMIN" ? ["Alerts"] : []),
+      "NGO directory",
+      "Government schemes",
+    ];
   function navigate(name) {
     setPage(name);
     setSelectedCase(null);
