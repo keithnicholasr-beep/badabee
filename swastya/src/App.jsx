@@ -418,6 +418,8 @@ function App() {
     [page, setPage] = useState("Overview"),
     [selectedCase, setSelectedCase] = useState(null),
     [notice, setNotice] = useState("");
+  const profileProps = useProfile(user, setUser);
+
   function logout() {
     setToken(null);
     setUser(null);
@@ -470,9 +472,10 @@ function App() {
   if (user.role === "VICTIM") {
     return (
       <VictimDashboard
-      key={user.id}
-      user={user}
-      onLogout={logout}
+        key={user.id}
+        user={user}
+        onLogout={logout}
+      profileProps={profileProps}
       />
     );
   }
