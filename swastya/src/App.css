@@ -78,7 +78,7 @@ h1 {
 }
 
 h2 {
-  font-size: 22px;
+  font-size: 1.375rem;
   letter-spacing: -0.5px;
 }
 
@@ -91,7 +91,7 @@ p {
 }
 
 .small {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .app-shell {
@@ -130,7 +130,7 @@ p {
   text-decoration: none;
 
   font-family: "Manrope", sans-serif;
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: 800;
 
   letter-spacing: -1.2px;
@@ -145,7 +145,7 @@ p {
 .sidebar-label {
   margin: 0 12px 12px;
 
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
 
   letter-spacing: 1.6px;
@@ -177,7 +177,7 @@ p {
   background: transparent;
   color: #bcd1c8;
 
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 500;
 
   cursor: pointer;
@@ -191,7 +191,7 @@ p {
 }
 
 .nav-link span {
-  font-size: 18px;
+  font-size: 1.125rem;
   opacity: 0.85;
 }
 
@@ -230,7 +230,7 @@ p {
 
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .sidebar-bottom p {
@@ -239,7 +239,7 @@ p {
 
 .secure-dot {
   color: #91d0ab;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .workspace {
   margin-left: 260px;
@@ -266,7 +266,7 @@ p {
 
   border-bottom: 1px solid var(--border);
 
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .profile {
@@ -277,7 +277,7 @@ p {
 
 .profile strong {
   display: block;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .profile small {
@@ -286,7 +286,7 @@ p {
 
   color: var(--text-muted);
 
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 
 .avatar {
@@ -302,7 +302,7 @@ p {
   color: var(--primary);
 
   font-weight: 700;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .content {
@@ -323,7 +323,7 @@ p {
   border-radius: 6px;
   padding: 9px 13px;
   background: #fff;
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: #6a7c70;
 }
 .metrics {
@@ -368,7 +368,7 @@ p {
 .metric span {
   display: block;
 
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
 
   color: var(--text-secondary);
@@ -381,7 +381,7 @@ p {
 
   font-family: "Manrope", sans-serif;
 
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: 800;
 
   letter-spacing: -1px;
@@ -392,7 +392,7 @@ p {
 .metric small {
   color: var(--text-muted);
 
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .panel {
   background: var(--surface);
@@ -435,12 +435,12 @@ p {
   flex-direction: row;
   align-items: center;
   color: #77867c;
-  font-size: 11px;
+  font-size: 0.6875rem;
   white-space: nowrap;
 }
 .inline-label select {
   padding: 7px 12px;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .table-scroll {
   overflow: auto;
@@ -454,7 +454,7 @@ table {
 
   border-collapse: collapse;
 
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 th {
@@ -466,7 +466,7 @@ th {
 
   color: var(--text-muted);
 
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
 
   letter-spacing: 0.5px;
@@ -506,7 +506,7 @@ tbody tr:last-child td {
 
   border-radius: 999px;
 
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
 
   white-space: nowrap;
@@ -539,18 +539,18 @@ tbody tr:last-child td {
   gap: 10px;
   padding: 16px 24px;
   color: #7c8c80;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .pagination span {
   margin-right: auto;
 }
 .pagination button {
-  font-size: 11px;
+  font-size: 0.6875rem;
   padding: 6px 12px;
 }
 footer {
   padding: 10px 38px 25px;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #8e9d92;
 }
 .detail-grid {
@@ -618,7 +618,7 @@ dd {
   margin-top: 14px;
 }
 .cards p {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .tags {
   display: flex;
@@ -669,7 +669,7 @@ dd {
 .bar-label {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-bottom: 8px;
 }
 .bar-track {
@@ -704,7 +704,7 @@ dd {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 11px;
+  font-size: 0.6875rem;
   gap: 8px;
   flex: 1;
 }
@@ -732,7 +732,7 @@ dd {
 }
 .welcome h1 {
   color: #f4f7ed;
-  font-size: 46px;
+  font-size: 2.875rem;
   line-height: 1.2;
 }
 .welcome p {
@@ -751,7 +751,7 @@ dd {
   width: 100%;
 }
 .login-panel h2 {
-  font-size: 30px;
+  font-size: 1.875rem;
 }
 .login-panel .primary {
   width: 100%;
@@ -861,7 +861,7 @@ dd {
     padding: 16px;
   }
   .metric strong {
-    font-size: 26px;
+    font-size: 1.625rem;
   }
   .detail-grid {
     grid-template-columns: 1fr;
@@ -878,7 +878,7 @@ dd {
     padding: 30px;
   }
   .welcome h1 {
-    font-size: 34px;
+    font-size: 2.125rem;
   }
   .welcome small {
     display: none;
@@ -900,7 +900,7 @@ dd {
     flex-wrap: wrap;
   }
   h1 {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
 }
 

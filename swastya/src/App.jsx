@@ -8,6 +8,8 @@ import { human } from "./format";
 import VictimDashboard from "./victim";
 import SupportPortal from "./support/SupportPortal";
 import "./App.css";
+import Profile, { Avatar } from "./Profile";
+import { useProfile } from "./useProfile";
 function PublicHome({ onLoginClick }) {
   return (
     <div className="public-site">
@@ -416,7 +418,6 @@ function App() {
     [page, setPage] = useState("Overview"),
     [selectedCase, setSelectedCase] = useState(null),
     [notice, setNotice] = useState("");
-
   function logout() {
     setToken(null);
     setUser(null);
@@ -469,9 +470,9 @@ function App() {
   if (user.role === "VICTIM") {
     return (
       <VictimDashboard
-        key={user.id}
-        user={user}
-        onLogout={logout}
+      key={user.id}
+      user={user}
+      onLogout={logout}
       />
     );
   }
@@ -483,7 +484,8 @@ function App() {
   if (!legal && !admin)
     return (
       <main className="unsupported">
-        <h1>Signed in securely</h1>
+        <button onClick={() => setPage(page === "Profile" ? "Overview" : "Profile")}>{page === "Profile" ? "Back" : "My profile & settings"}</button>
+        {page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : <h1>Signed in securely</h1>}
         <p>
           Your {human(user.role)} account can use the shared API. Its dashboard
           is being developed separately.
@@ -532,6 +534,7 @@ function App() {
           ))}
         </nav>
         <div className="sidebar-bottom">
+          <button className="profile-nav" onClick={() => navigate("Profile")} aria-current={page === "Profile" ? "page" : undefined}><Avatar name={user.name} photo={profileProps.profile?.photo} /> My profile & settings</button>
           <div className="secure-dot">● Secure access</div>
           <p>{human(user.role)}</p>
           <button onClick={logout}>Sign out</button>
@@ -557,7 +560,7 @@ function App() {
           </div>
         </header>
         <main className="content">
-          {selectedCase ? (
+          {page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : selectedCase ? (
             <CaseDetail
               caseId={selectedCase}
               onBack={() => setSelectedCase(null)}

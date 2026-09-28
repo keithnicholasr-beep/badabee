@@ -109,3 +109,21 @@ Response: `jurisdiction,cases_monitored,high_risk_cases,critical_alerts,followup
 ## Error handling
 
 401 missing/invalid/expired credentials; 403 role/jurisdiction violation; 404 missing or inaccessible record; 409 duplicate/reference conflict; 422 invalid input; 429 login throttle; 500 generic unexpected error. Raw SQL, credentials and exception payloads are not returned. All responses use `Cache-Control: no-store`. Paginated lists use stable ordering. Frontend shows loading, empty and error states and redirects to login on 401.
+
+
+## My profile and account settings
+
+Available to every authenticated role; endpoints always operate on the authenticated user and never accept a target user ID. Role, jurisdiction, assignment and active status cannot be changed here.
+
+| Endpoint | Contract |
+|---|---|
+| GET `/profile` | Own id, name, email, role, created_at, photo, language, theme, text_size, high_contrast, reduced_motion |
+| PATCH `/profile` | Required name and email; current_password required when email changes. Preferences: language (English/Hindi/Tamil/Kannada/Telugu/Malayalam/Marathi/Bengali), theme (system/light/dark), text_size (standard/large/extra-large), high_contrast and reduced_motion booleans. Returns updated profile. Send all preferences; omitted preferences use defaults. |
+| POST `/profile/photo` | `{data_url: "data:image/png;base64,..."}` or JPEG. `{data_url: null}` removes photo. Returns updated profile. |
+| POST `/profile/password` | `{current_password, new_password}`. New password 12–256 characters; spaces preserved. Returns success message and invalidates all previously issued JWTs, including the current session. |
+
+Photo input: maximum 2 MiB decoded, 16 megapixels, JPEG/PNG only. Server decodes, resizes to at most 512x512, and re-encodes without original metadata. Photos are stored privately in user_settings and returned only to their owner. Configure production reverse-proxy request-size limits as well.
+
+Email changes require the existing password and a unique normalized email. There is currently no email-ownership verification service. Password checks are limited to five attempts per user per minute in the single-process MVP. Responses include 400 (incorrect current password), 401 (expired/missing session), 409 (conflict), 422 (invalid data), and 429 (throttled). Sensitive changes are audited without storing passwords or image contents in the audit log.
+
+Language is a saved communication preference, not a translation switch; the current interface remains English. Theme and accessibility preferences are loaded at sign-in and applied across dashboards. Existing sessions must sign in again after this security update.

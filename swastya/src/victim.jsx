@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "./api";
 import { Badge, ErrorBox } from "./ui";
 import { human, date } from "./format";
+import Profile, { Avatar } from "./Profile";
 import { Directory } from "./Resources";
 import { Checkin, Chat } from "./support/Victim";
 import { Emergency, Notifications, Panel, ResourceState, useResource } from "./support/shared";
@@ -9,7 +10,7 @@ import { supportApi } from "./support/services";
 import { dateTime, translator } from "./support/i18n";
 import "./support/support.css";
 
-export default function VictimDashboard({ user, onLogout }) {
+export default function VictimDashboard({ user, onLogout, profileProps }) {
   const [page, setPage] = useState("Overview");
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -117,6 +118,7 @@ export default function VictimDashboard({ user, onLogout }) {
         </nav>
 
         <div className="sidebar-bottom">
+          <button className="profile-nav" onClick={() => setPage("Profile")} aria-current={page === "Profile" ? "page" : undefined}><Avatar name={user.name} photo={profileProps.profile?.photo} /> My profile & settings</button>
           <p>{user.name}</p>
           <button onClick={onLogout}>Sign out</button>
         </div>
@@ -124,6 +126,7 @@ export default function VictimDashboard({ user, onLogout }) {
 
       <div className="workspace">
         <main className="content">
+          {page === "Profile" ? <Profile {...profileProps} onLogout={onLogout} /> : <>
           <div className="page-heading">
             <div>
               <p className="eyebrow">YOUR SUPPORT SPACE</p>
@@ -343,6 +346,7 @@ export default function VictimDashboard({ user, onLogout }) {
               {page === "notifications" && <Notifications t={t} lang={lang} />}
             </>
           )}
+          </>}
         </main>
       </div>
     </div>
