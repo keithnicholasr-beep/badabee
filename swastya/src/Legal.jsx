@@ -32,7 +32,7 @@ export function LegalDashboard({ tableOnly, onSelect }) {
     <>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">LEGAL SUPPORT</p>
+
           <h1>{tableOnly ? "Case register" : "Your overview"}</h1>
           <p className="muted">Every case, a step toward resolution.</p>
         </div>
@@ -220,7 +220,7 @@ export function CaseDetail({ caseId, onBack }) {
       </button>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">{c.case_id}</p>
+          <p className="record-reference">{c.case_id}</p>
           <h1>{c.case_type}</h1>
           <p className="muted">
             {c.victim} · {c.district}, {c.state}

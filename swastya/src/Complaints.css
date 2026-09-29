@@ -1,0 +1,19 @@
+.complaint-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; margin-block: 24px; }
+.complaint-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-block: 16px; }
+.complaint-form { display: grid; gap: 18px; }
+.complaint-form label { display: grid; gap: 8px; }
+.complaint-form input, .complaint-form textarea, .complaint-form select { width: 100%; }
+.complaint-form textarea { resize: vertical; min-height: 100px; }
+.complaint-form button { justify-self: start; }
+.complaint-detail-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: start; }
+.complaint-detail-grid .panel { margin-bottom: 24px; }
+.complaint-facts { display: grid; grid-template-columns: minmax(100px, .6fr) 1fr; gap: 12px; }
+.complaint-facts dt { font-weight: 700; }
+.complaint-facts dd { margin: 0; overflow-wrap: anywhere; }
+.preserve-lines { white-space: pre-wrap; overflow-wrap: anywhere; }
+.record-reference { overflow-wrap: anywhere; }
+.message-list { max-height: 480px; overflow-y: auto; padding-right: 6px; }
+.message { border: 1px solid var(--border); background: var(--surface-soft); padding: 14px; margin: 12px 24px 12px 0; }
+.message.mine { background: var(--primary-light); margin: 12px 0 12px 24px; }
+.message time { font-size: .75rem; color: var(--text-secondary); }
+@media (max-width: 1100px) { .complaint-detail-grid { grid-template-columns: 1fr; } }

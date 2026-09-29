@@ -105,3 +105,7 @@ The redesigned public homepage and login card share the existing backend. **New 
 From the backend folder, run `.\.venv\Scripts\python.exe create_staff.py` to create a legal officer or counsellor with their linked professional profile. Existing accounts are never overwritten. Fresh-database administrator setup remains `python -m app.bootstrap`.
 
 **My profile & settings** is available from each dashboard and the counsellor placeholder. See [profile setup and usage](docs/profile-settings.md). Run `python -m pip install -r requirements.txt` and `python -m alembic upgrade head` before starting an updated backend. Language is a saved communication preference; the interface currently remains English.
+
+## Law enforcement dashboard and reference UI
+
+See [the setup and workflow guide](docs/law-enforcement.md) for officer account creation, victim complaints, FIR records, direct messaging, administrator assignment and footer email/phone configuration.

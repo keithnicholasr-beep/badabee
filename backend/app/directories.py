@@ -1,11 +1,16 @@
 from .responses import EligibleSchemeOut, LocationOut, NGOMatchOut, NGOOut, SchemeOut
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Depends
 from sqlalchemy import select, or_
 from .models import *
 from .security import DB, Actor, get_victim, audit, district_scope
 from .presenters import fields, location
 
-router = APIRouter(tags=['Directories'])
+def directory_access(user: Actor):
+    if user.role == Role.LAW_ENFORCEMENT:
+        raise HTTPException(403, 'Law enforcement access is limited to complaints and FIRs')
+
+
+router = APIRouter(tags=['Directories'], dependencies=[Depends(directory_access)])
 
 
 def ngo_view(db, row):

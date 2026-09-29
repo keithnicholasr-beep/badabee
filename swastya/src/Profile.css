@@ -20,9 +20,9 @@ html[data-text-size="large"] { font-size: 18px; }
 html[data-text-size="extra-large"] { font-size: 20px; }
 html[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #11161b; --surface: #1c2329; --surface-soft: #222b33;
+  --bg: #10171c; --surface: #20272e; --surface-soft: #222b33;
   --text: #eff4f8; --text-secondary: #bfc9d1; --text-muted: #afbac4;
-  --border: #525d66; --border-strong: #75818b;
+  --border: #394650; --border-strong: #75818b;
   --primary: #6ba6d9; --primary-hover: #92c3ed; --primary-light: #293c4d;
   --success-bg: #192c3d; --success: #a2caed;
   --warning-bg: #443719; --warning: #ffe0a0;

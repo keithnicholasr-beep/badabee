@@ -13,6 +13,7 @@ def now():
 class Role(str, enum.Enum):
     VICTIM = 'VICTIM'
     COUNSELLOR = 'COUNSELLOR'
+    LAW_ENFORCEMENT = 'LAW_ENFORCEMENT'
     LEGAL_OFFICER = 'LEGAL_OFFICER'
     DISTRICT_ADMIN = 'DISTRICT_ADMIN'
     STATE_ADMIN = 'STATE_ADMIN'
@@ -295,3 +296,41 @@ class UserSettings(Record, Base):
     text_size: Mapped[str] = mapped_column(String(20), default='standard')
     high_contrast: Mapped[bool] = mapped_column(Boolean, default=False)
     reduced_motion: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
+class LawEnforcementOfficer(Record, Base):
+    __tablename__ = 'law_enforcement_officers'
+    user_id: Mapped[str] = mapped_column(ForeignKey('users.id'), unique=True)
+    police_station: Mapped[str] = mapped_column(String(160))
+
+
+class Complaint(Record, Base):
+    __tablename__ = 'complaints'
+    victim_id: Mapped[str] = mapped_column(ForeignKey('victims.id'), index=True)
+    district_id: Mapped[str] = mapped_column(ForeignKey('districts.id'), index=True)
+    officer_id: Mapped[str | None] = mapped_column(ForeignKey('law_enforcement_officers.id'), index=True)
+    subject: Mapped[str] = mapped_column(String(200))
+    description: Mapped[str] = mapped_column(Text)
+    incident_date: Mapped[datetime | None] = mapped_column(Date)
+    location: Mapped[str] = mapped_column(String(250))
+    status: Mapped[str] = mapped_column(String(30), default='SUBMITTED')
+    __table_args__ = (CheckConstraint("status IN ('SUBMITTED', 'IN_REVIEW', 'FIR_REGISTERED', 'CLOSED')"),)
+
+
+class FIRRegistration(Record, Base):
+    __tablename__ = 'fir_registrations'
+    complaint_id: Mapped[str] = mapped_column(ForeignKey('complaints.id'), unique=True)
+    registered_by: Mapped[str] = mapped_column(ForeignKey('law_enforcement_officers.id'))
+    district_id: Mapped[str] = mapped_column(ForeignKey('districts.id'), index=True)
+    number: Mapped[str] = mapped_column(String(80))
+    police_station: Mapped[str] = mapped_column(String(160))
+    registered_on: Mapped[datetime] = mapped_column(Date)
+    registration_year: Mapped[int] = mapped_column(Integer)
+    __table_args__ = (UniqueConstraint('district_id', 'police_station', 'registration_year', 'number', name='uq_fir_reference'),)
+
+
+class ComplaintMessage(Record, Base):
+    __tablename__ = 'complaint_messages'
+    complaint_id: Mapped[str] = mapped_column(ForeignKey('complaints.id'), index=True)
+    sender_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    body: Mapped[str] = mapped_column(Text)

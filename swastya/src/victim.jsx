@@ -1,3 +1,4 @@
+import Complaints from "./Complaints";
 import SiteFooter from "./SiteFooter";
 import DashboardHeader from "./DashboardHeader";
 import { useEffect, useState } from "react";
@@ -49,6 +50,7 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
   const pages = [
     "Overview",
     "My cases",
+    "Complaints & FIRs",
     "Follow-ups",
     "Schemes",
     "Find support",
@@ -87,10 +89,10 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
 
       <div className="workspace">
         <main className={page === "Home" ? "dashboard-home-content" : "content"}>
-          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => setPage("Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={onLogout} /> : <>
+          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => setPage("Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={onLogout} /> : page === "Complaints & FIRs" ? <Complaints user={user} /> : <>
           <div className="page-heading">
             <div>
-              <p className="eyebrow">YOUR SUPPORT SPACE</p>
+
               <h1>Welcome, {user.name}</h1>
               <p className="muted">
                 View your case progress and available support.

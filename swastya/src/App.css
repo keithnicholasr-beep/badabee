@@ -1350,6 +1350,49 @@ dd {
   padding: 35px;
 }
 
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 48px;
+}
+
+.password-eye-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 36px;
+  height: 36px;
+
+  min-height: 0;
+  padding: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: none;
+  background: transparent;
+
+  color: #6b7780;
+
+  cursor: pointer;
+}
+
+.password-eye-button:hover {
+  color: #174f7e;
+  background: #e8eef4;
+}
+
+.password-eye-button svg {
+  display: block;
+}
+
 .login-card-header {
   margin-bottom: 25px;
 }
@@ -1531,3 +1574,100 @@ html[data-theme="dark"] .header-auth-actions .header-signup-button:hover { backg
 @media (max-width: 600px) { .dashboard-header-user.header-profile-button > span { max-width: none; white-space: normal; text-align: left; } }
 
 button.dashboard-header-brand { background: transparent; border: 0; padding: 0; cursor: pointer; text-align: left; }
+/* Shared reference layout: square surfaces, blue navigation and spacious type. */
+:root { font-size: 16px; --sidebar: #102e50; --sidebar-hover: #1b4168; --sidebar-active: #214b76; --radius-sm: 2px; --radius-md: 2px; --radius-lg: 2px; }
+.public-site { font-size: .9375rem; }
+.public-container { width: calc(100% - 64px); max-width: 1224px; margin-inline: auto; }
+.public-header .header-inner { width: calc(100% - 136px); max-width: none; min-height: 96px; }
+.public-brand h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: .12em; }
+.public-nav, .dashboard-header-nav { background: #17446e; }
+.public-nav .nav-inner { width: 100%; max-width: none; }
+.nav-inner a, .dashboard-header-nav button { padding: 10px 16px; font-size: .9375rem; font-weight: 400; }
+.public-site .hero-grid { grid-template-columns: minmax(0, 1.8fr) minmax(300px, 1fr); gap: 12%; min-height: 440px; padding-block: 72px; align-items: start; }
+.public-site .hero h2, .public-site .section-heading h2, .public-site .platform-section h2, .public-site .security-section h2, .public-site .portal-cta h2 { font-size: 2.375rem; line-height: 1.12; font-weight: 800; letter-spacing: -.025em; margin: 0 0 26px; }
+.public-site .hero h2 { max-width: 610px; }
+.public-site .hero-description { font-size: 1rem; line-height: 1.45; margin-top: 58px; }
+.public-site .hero-actions { margin-top: 48px; }
+.public-site .hero-info-card { border-radius: 0; }
+.public-site .info-card-title { background: #205887; padding: 14px 19px; font-weight: 800; }
+.public-site .quick-service { padding: 18px; gap: 14px; border-color: var(--border); }
+.public-site .quick-service strong, .public-site .service-card h3 { font-size: .9375rem; font-weight: 800; }
+.public-site .quick-service p { font-size: .625rem; line-height: 1.5; }
+.public-site .quick-service > span { font-size: .625rem; }
+.public-site .services-section { padding: 70px 0 55px; }
+.public-site .section-heading { margin-bottom: 40px; }
+.public-site .section-heading > p, .public-site .service-card p { font-size: .875rem; line-height: 1.7; }
+.public-site .service-grid { gap: 7%; row-gap: 24px; }
+.public-site .service-card { padding: 25px; min-height: 182px; }
+.public-site .service-card h3 { margin: 0; }
+.public-site .service-card p { margin: 0; }
+.public-site .service-number { font-size: .6875rem; margin-bottom: 24px; }
+.public-site .platform-grid, .public-site .security-content { grid-template-columns: .8fr 1.2fr; gap: 8%; align-items: start; }
+.public-site .platform-section { padding-block: 68px; }
+.public-site .platform-list > div:first-child { padding-top: 0; }
+.public-site .platform-list strong { margin: 0; }
+.public-site .platform-list > div { padding: 15px 0; }
+.public-site .platform-grid > div > p { margin-top: 34px; }
+.public-site .security-section { padding-block: 55px; }
+.public-site .security-content > p { margin-top: 0; line-height: 1.5; }
+.public-site .cta-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
+.public-site .portal-cta { padding: 35px 0 22px; }
+.public-site .portal-cta h2 { margin-bottom: 42px; }
+.header-profile-button, .header-login-button, .main-login-button { border-radius: 0; }
+.public-site .main-login-button, .public-site .header-login-button { background: transparent; color: var(--text); border-color: var(--border-strong); padding: 10px 18px; font-weight: 400; }
+.public-site .header-signup-button { color: var(--primary); border-color: var(--primary); }
+.app-shell > .sidebar { width: 240px; background: #102e50; padding: 24px 20px 20px; box-shadow: none; }
+.app-shell > .workspace { width: calc(100% - 240px); margin-left: 240px; }
+.sidebar .nav-link { font-size: .75rem; font-weight: 400; padding: 12px; margin-bottom: 6px; border-radius: 0; }
+.sidebar .nav-link > span { display: none; }
+.sidebar-bottom button { font-size: .75rem; border-radius: 3px; }
+.dashboard-header-main { min-height: 80px; padding: 14px 28px; }
+.dashboard-header-brand strong { font-size: 1.125rem; letter-spacing: .08em; }
+.app-shell .dashboard-home .public-container { width: calc(100% - 14%); max-width: none; }
+.app-shell .dashboard-home .hero-grid { min-height: 378px; gap: 7%; grid-template-columns: 1.55fr 1fr; padding-block: 50px; }
+.app-shell .dashboard-home .hero-description { margin-top: 34px; }
+.app-shell .dashboard-home .service-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.app-shell .dashboard-home .platform-grid, .app-shell .dashboard-home .security-content { grid-template-columns: .8fr 1.2fr; gap: 8%; }
+.site-footer { background: #153e62; color: #dae6f1; font-size: .6875rem; }
+.site-footer .footer-grid { align-items: start; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 16px; align-items: baseline; }
+.site-footer a { color: inherit; }
+.footer-contact { display: grid; gap: 8px; min-width: 170px; }
+.footer-contact strong { font-size: .75rem; }
+.footer-contact dl { margin: 0; display: grid; gap: 4px; }
+.footer-contact dt { font-weight: 700; margin-top: 6px; }
+.footer-contact dd { margin: 0; overflow-wrap: anywhere; }
+html[data-theme="dark"] .public-site .services-section { background: var(--bg); }
+html[data-theme="dark"] .public-site .header-login-button { color: var(--text); background: transparent; }
+html[data-theme="dark"] .public-site .header-signup-button { color: #aacfee; border-color: #aacfee; }
+html[data-theme="dark"] .dashboard-header-brand { color: var(--text); }
+html[data-theme="dark"] .public-site .info-card-title { color: white; }
+html[data-theme="dark"] .public-site .quick-service > span { color: #ffa44d; }
+html[data-contrast="true"] .public-site :is(section, article, .hero-info-card) { background: var(--surface); color: var(--text); border-color: var(--border); }
+html[data-contrast="true"] .public-site :is(h2, h3, p, strong, .platform-list span, .secondary-link) { color: var(--text); }
+@media (max-width: 1200px) {
+ .app-shell .dashboard-home .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+ .app-shell .dashboard-home .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .public-site .hero-grid { gap: 40px; }
+}
+@media (max-width: 850px) {
+ .public-site .hero-grid, .public-site .platform-grid, .public-site .security-content, .app-shell .dashboard-home .platform-grid, .app-shell .dashboard-home .security-content { grid-template-columns: 1fr; gap: 30px; }
+ .public-site .hero-description { margin-top: 28px; }
+ .public-site .hero-grid { padding-block: 44px; }
+ .public-site .hero h2, .public-site .section-heading h2, .public-site .platform-section h2, .public-site .security-section h2, .public-site .portal-cta h2 { font-size: 2rem; }
+ .public-header .header-inner { width: calc(100% - 40px); min-height: 80px; }
+ .site-footer .footer-grid { flex-wrap: wrap; }
+}
+@media (max-width: 760px) {
+ .app-shell > .sidebar { width: 100%; padding: 12px 16px; }
+ .app-shell > .workspace { width: 100%; margin-left: 0; }
+ .sidebar nav { display: flex; flex-wrap: wrap; }
+ .sidebar-bottom { margin-top: 8px; padding-top: 8px; }
+ .app-shell .dashboard-home .public-container, .public-container { width: calc(100% - 36px); }
+}
+@media (max-width: 500px) {
+ .public-site .service-grid, .app-shell .dashboard-home .service-grid { grid-template-columns: 1fr; }
+ .public-brand h1 { font-size: 1.125rem; }
+ .public-site .header-login-button { padding: 9px 12px; font-size: .875rem; }
+ .public-site .hero-actions { margin-top: 28px; }
+}

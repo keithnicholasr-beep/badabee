@@ -4,7 +4,7 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
   useEffect(() => {
     if (section?.id) document.getElementById(section.id)?.scrollIntoView({ block: "start" });
   }, [section]);
-  const restricted = ["LEGAL_OFFICER", "COUNSELLOR"].includes(user?.role);
+  const restricted = ["LEGAL_OFFICER", "COUNSELLOR", "LAW_ENFORCEMENT"].includes(user?.role);
   const action = user ? (user.role === "COUNSELLOR" ? "Open my profile" : "Open my dashboard") : "Login";
   return (
     <div className={user ? "public-site dashboard-home" : "public-site"}>
@@ -34,7 +34,7 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
           <a href="#services">Services</a>
           <a href="#features">Platform</a>
           <a href="#security">Security</a>
-          <a href="#support">Support</a>
+          <a href="#/help">Help</a>
         </div>
       </nav></div>}
 
@@ -42,9 +42,7 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
         <section className="hero" id="home">
           <div className="public-container hero-grid">
             <div>
-              <p className="section-tag">
-                INTEGRATED SUPPORT & COORDINATION
-              </p>
+
 
               <h2>
                 One secure platform for coordinated victim support.
@@ -63,7 +61,7 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
 
             <div className="hero-info-card">
               <div className="info-card-title">
-                Platform Services
+                Our Services
               </div>
 
               <div className="quick-service">
@@ -100,7 +98,7 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
         <section className="services-section" id="services">
           <div className="public-container">
             <div className="section-heading">
-              <p className="section-tag">SERVICES</p>
+
               <h2>Integrated support ecosystem</h2>
               <p>
                 Different services work together while access remains
@@ -169,14 +167,14 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
         <section className="platform-section" id="features">
           <div className="public-container platform-grid">
             <div>
-              <p className="section-tag">SWASTYA PLATFORM</p>
 
-              <h2>Designed around coordinated assistance</h2>
+
+              <h2>Role-based access</h2>
 
               <p>
-                SWASTYA provides different interfaces for legal officers
-                and administrative users while enforcing jurisdiction and
-                role-based access through the backend.
+                Users see only the services available for their role,
+                with jurisdiction and permissions enforced through
+                the backend.
               </p>
             </div>
 
@@ -185,14 +183,6 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
                 <strong>Role-based access</strong>
                 <span>
                   Information is shown according to user permissions.
-                </span>
-              </div>
-
-              <div>
-                <strong>Jurisdiction controls</strong>
-                <span>
-                  Administrative information follows district, state
-                  and national scopes.
                 </span>
               </div>
 
@@ -217,7 +207,7 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
         <section className="security-section" id="security">
           <div className="public-container security-content">
             <div>
-              <p className="section-tag">SECURITY & PRIVACY</p>
+
               <h2>Access controlled by design</h2>
             </div>
 
@@ -232,8 +222,8 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
         <section className="portal-cta" id="support">
           <div className="public-container cta-inner">
             <div>
-              <p className="section-tag">SECURE PORTAL</p>
-              <h2>{user ? "Your support workspace" : "Already registered?"}</h2>
+
+              <h2>Your support workspace</h2>
               <p>
                 {user ? "Use your workspace to access the services available for your role." : "Sign in to access the services available for your role."}
               </p>

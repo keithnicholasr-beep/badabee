@@ -496,5 +496,82 @@ CREATE TABLE user_settings (
 
 UPDATE alembic_version SET version_num='72ac9e13' WHERE alembic_version.version_num = '0b9345094ff9';
 
+-- Running upgrade 72ac9e13 -> 86d8e04f1741
+
+CREATE TABLE law_enforcement_officers (
+    user_id VARCHAR(36) NOT NULL,
+    police_station VARCHAR(160) NOT NULL,
+    id VARCHAR(36) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY(user_id) REFERENCES users (id),
+    UNIQUE (user_id)
+);
+
+CREATE TABLE complaints (
+    victim_id VARCHAR(36) NOT NULL,
+    district_id VARCHAR(36) NOT NULL,
+    officer_id VARCHAR(36),
+    subject VARCHAR(200) NOT NULL,
+    description TEXT NOT NULL,
+    incident_date DATE,
+    location VARCHAR(250) NOT NULL,
+    status VARCHAR(30) NOT NULL,
+    id VARCHAR(36) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    PRIMARY KEY (id),
+    CHECK (status IN ('SUBMITTED', 'IN_REVIEW', 'FIR_REGISTERED', 'CLOSED')),
+    FOREIGN KEY(district_id) REFERENCES districts (id),
+    FOREIGN KEY(officer_id) REFERENCES law_enforcement_officers (id),
+    FOREIGN KEY(victim_id) REFERENCES victims (id)
+);
+
+CREATE INDEX ix_complaints_district_id ON complaints (district_id);
+
+CREATE INDEX ix_complaints_officer_id ON complaints (officer_id);
+
+CREATE INDEX ix_complaints_victim_id ON complaints (victim_id);
+
+CREATE TABLE complaint_messages (
+    complaint_id VARCHAR(36) NOT NULL,
+    sender_id VARCHAR(36) NOT NULL,
+    body TEXT NOT NULL,
+    id VARCHAR(36) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY(complaint_id) REFERENCES complaints (id),
+    FOREIGN KEY(sender_id) REFERENCES users (id)
+);
+
+CREATE INDEX ix_complaint_messages_complaint_id ON complaint_messages (complaint_id);
+
+CREATE TABLE fir_registrations (
+    complaint_id VARCHAR(36) NOT NULL,
+    registered_by VARCHAR(36) NOT NULL,
+    district_id VARCHAR(36) NOT NULL,
+    number VARCHAR(80) NOT NULL,
+    police_station VARCHAR(160) NOT NULL,
+    registered_on DATE NOT NULL,
+    registration_year INTEGER NOT NULL,
+    id VARCHAR(36) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY(complaint_id) REFERENCES complaints (id),
+    FOREIGN KEY(district_id) REFERENCES districts (id),
+    FOREIGN KEY(registered_by) REFERENCES law_enforcement_officers (id),
+    UNIQUE (complaint_id),
+    CONSTRAINT uq_fir_reference UNIQUE (district_id, police_station, registration_year, number)
+);
+
+CREATE INDEX ix_fir_registrations_district_id ON fir_registrations (district_id);
+
+ALTER TABLE users ALTER COLUMN role TYPE VARCHAR(15);
+
+UPDATE alembic_version SET version_num='86d8e04f1741' WHERE alembic_version.version_num = '72ac9e13';
+
 COMMIT;
 

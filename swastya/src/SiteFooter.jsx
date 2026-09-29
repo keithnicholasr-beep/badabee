@@ -1,3 +1,4 @@
+import ContactDetails from "./ContactDetails";
 export default function SiteFooter({ compact = false, showBrand = false }) {
   return <footer className={compact ? 'site-footer compact-footer' : 'public-footer site-footer'}>
     <div className="public-container footer-grid">
@@ -8,6 +9,7 @@ export default function SiteFooter({ compact = false, showBrand = false }) {
         <a href="#/help">Help</a>
         <a href="#/help/contact">Contact</a>
       </nav>
+      <ContactDetails />
     </div>
     {!compact && <div className="public-container footer-bottom">Not an official Government of India production website.</div>}
   </footer>;

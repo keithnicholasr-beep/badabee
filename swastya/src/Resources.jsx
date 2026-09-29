@@ -45,7 +45,7 @@ export function Directory({ victimId = "" }) {
     <>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">COMMUNITY CONNECTIONS</p>
+
           <h1>NGO directory</h1>
           <p className="muted">Find the right support, closer to home.</p>
         </div>
@@ -85,7 +85,7 @@ export function Directory({ victimId = "" }) {
       <div className="cards">
         {items?.map((x) => (
           <article className="panel pad" key={x.id}>
-            <p className="eyebrow">
+            <p className="record-location">
               {x.district} · {x.state}
             </p>
             <h2>{x.name}</h2>
@@ -124,7 +124,7 @@ export function Schemes() {
     <>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">RECOVERY & REHABILITATION</p>
+
           <h1>Government schemes</h1>
           <p className="muted">
             Structured support options and application requirements.
@@ -194,7 +194,7 @@ export function Alerts() {
     <>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">COORDINATED RESPONSE</p>
+
           <h1>Alerts needing attention</h1>
           <p className="muted">
             Support review requests within your jurisdiction.

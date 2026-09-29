@@ -127,3 +127,7 @@ Photo input: maximum 2 MiB decoded, 16 megapixels, JPEG/PNG only. Server decodes
 Email changes require the existing password and a unique normalized email. There is currently no email-ownership verification service. Password checks are limited to five attempts per user per minute in the single-process MVP. Responses include 400 (incorrect current password), 401 (expired/missing session), 409 (conflict), 422 (invalid data), and 429 (throttled). Sensitive changes are audited without storing passwords or image contents in the audit log.
 
 Language is a saved communication preference, not a translation switch; the current interface remains English. Theme and accessibility preferences are loaded at sign-in and applied across dashboards. Existing sessions must sign in again after this security update.
+
+## Complaints and law enforcement
+
+See [law-enforcement.md](law-enforcement.md) for complaint/FIR/message contracts, assignment rules, officer provisioning and contact configuration. The new `LAW_ENFORCEMENT` role has only assigned same-district complaint access; it has no clinical/analytics access. Complaint messages are separate from the existing clinical chat contract.

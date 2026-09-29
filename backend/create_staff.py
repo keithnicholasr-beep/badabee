@@ -3,16 +3,17 @@ from getpass import getpass
 from sqlalchemy import select, func
 
 from app.db import SessionLocal
-from app.models import User, Role, LegalOfficer, Counsellor
+from app.models import User, Role, LegalOfficer, Counsellor, LawEnforcementOfficer, District, State
 from app.security import passwords, audit
 
 
 def main():
     print("1. Lawyer / Legal Officer")
     print("2. Counsellor")
-    choice = input("Choose 1 or 2: ").strip()
+    print("3. Law Enforcement Officer")
+    choice = input("Choose 1, 2 or 3: ").strip()
 
-    if choice not in {"1", "2"}:
+    if choice not in {"1", "2", "3"}:
         print("Invalid choice.")
         return
 
@@ -38,11 +39,7 @@ def main():
         print("Passwords do not match.")
         return
 
-    role = (
-        Role.LEGAL_OFFICER
-        if choice == "1"
-        else Role.COUNSELLOR
-    )
+    role = {"1": Role.LEGAL_OFFICER, "2": Role.COUNSELLOR, "3": Role.LAW_ENFORCEMENT}[choice]
 
     with SessionLocal() as db:
         existing = db.scalar(
@@ -53,12 +50,33 @@ def main():
             print("That email already has an account. Nothing changed.")
             return
 
+        district = None
+        station = None
+        if role == Role.LAW_ENFORCEMENT:
+            districts = list(db.scalars(select(District).order_by(District.name)))
+            if not districts:
+                print("Create districts before adding a law enforcement officer.")
+                return
+            for index, item in enumerate(districts, 1):
+                print(f"{index}. {item.name}, {db.get(State, item.state_id).name}")
+            selected = input("District number: ").strip()
+            if not selected.isdigit() or not 1 <= int(selected) <= len(districts):
+                print("Invalid district.")
+                return
+            district = districts[int(selected) - 1]
+            station = input("Police station: ").strip()
+            if not 2 <= len(station) <= 160:
+                print("Police station must contain 2-160 characters.")
+                return
+
         user = User(
             name=name,
             email=email,
             password_hash=passwords.hash(password),
             role=role,
             active=True,
+            district_id=district.id if district else None,
+            state_id=district.state_id if district else None,
         )
         db.add(user)
         db.flush()
@@ -68,6 +86,8 @@ def main():
                 user_id=user.id,
                 designation="Legal Officer",
             )
+        elif role == Role.LAW_ENFORCEMENT:
+            profile = LawEnforcementOfficer(user_id=user.id, police_station=station)
         else:
             profile = Counsellor(
                 user_id=user.id,

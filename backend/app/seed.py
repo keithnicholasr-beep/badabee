@@ -52,6 +52,8 @@ def seed(db, password):
             officer = add(LegalOfficer, user_id=officer_user.id, designation='Demo legal support officer')
             counsellor_user = user(f'counsellor{key}@demo.invalid', f'Demo Counsellor {key}', Role.COUNSELLOR, district, state)
             counsellor = add(Counsellor, user_id=counsellor_user.id, specialization='Trauma-informed support')
+            police_user = user(f'police{key}@demo.invalid', f'Demo Law Officer {key}', Role.LAW_ENFORCEMENT, district, state)
+            police = add(LawEnforcementOfficer, user_id=police_user.id, police_station=f'Demo {district_name} Station')
             prosecutor = add(Prosecutor, name=f'Demo Prosecutor {key}', district_id=district.id)
             language = ['Tamil', 'Kannada', 'Malayalam'][state_index]
             for n in range(3):
@@ -66,6 +68,14 @@ def seed(db, password):
                 victim_user = user(f'victim{sequence}@demo.invalid', f'Demo Participant {sequence:03}', Role.VICTIM, district, state)
                 victim = add(Victim, user_id=victim_user.id, district_id=district.id, language=language,
                              age=rng.randint(18, 65), annual_income=rng.choice([100000, 180000, 250000, 450000, None]), support_category='GENERAL')
+                if index < 3:
+                    complaint = add(Complaint, victim_id=victim.id, district_id=district.id, officer_id=police.id,
+                        subject=f'Synthetic complaint {sequence}', description='Synthetic request for assistance concerning an incident.',
+                        location=f'Demo {district_name}', status='FIR_REGISTERED' if index == 0 else 'SUBMITTED')
+                    add(ComplaintMessage, complaint_id=complaint.id, sender_id=victim_user.id, body='Synthetic message: please advise on my complaint.')
+                    if index == 0:
+                        add(FIRRegistration, complaint_id=complaint.id, registered_by=police.id, district_id=district.id,
+                            number=f'DEMO-{sequence}', police_station=police.police_station.upper(), registered_on=now().date(), registration_year=now().year)
                 add(CounsellorAssignment, counsellor_id=counsellor.id, victim_id=victim.id)
                 age = rng.randint(35, 350)
                 created = now() - timedelta(days=age)

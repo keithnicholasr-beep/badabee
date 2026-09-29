@@ -1,3 +1,4 @@
+import Complaints, { ComplaintAssignments } from "./Complaints";
 import SupportPages from "./SupportPages";
 import SiteFooter from "./SiteFooter";
 import DashboardHeader from "./DashboardHeader";
@@ -12,11 +13,14 @@ import "./App.css";
 import Home from "./Home";
 import Profile from "./Profile";
 import { useProfile } from "./useProfile";
+import { Eye, EyeOff } from "lucide-react";
 function Login({ onLogin, onBack, notice, initialSignup = false }) {
   const [signup, setSignup] = useState(initialSignup);
   const [locations, setLocations] = useState([]);
   const [locationError, setLocationError] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   useEffect(() => {
     let active = true;
     api("/auth/registration-options").then(rows => { if (active) setLocations(rows); })
@@ -80,7 +84,7 @@ function Login({ onLogin, onBack, notice, initialSignup = false }) {
       <main className="minimal-login-main">
         <section className="minimal-login-card">
           <div className="login-card-header">
-            <p className="section-tag">{signup ? "CREATE ACCOUNT" : "SECURE LOGIN"}</p>
+
             <h1>{signup ? "Create your account" : "Sign in"}</h1>
             <p>{signup ? "Register to access your personal support dashboard." : "Enter your registered credentials to continue."}</p>
           </div>
@@ -106,18 +110,66 @@ function Login({ onLogin, onBack, notice, initialSignup = false }) {
 
             <label>
               Password
-              <input
-                name="password"
-                type="password"
-                autoComplete={signup ? "new-password" : "current-password"}
-                minLength={signup ? 12 : 1}
-                maxLength={256}
-                placeholder="Enter your password"
-                required
-              />
-            </label>
 
-            {signup && <label>Confirm password<input name="confirmation" type="password" autoComplete="new-password" required minLength={12} maxLength={256} /><small>Use at least 12 characters.</small></label>}
+              <div className="password-input-wrapper">
+                <input
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete={signup ? "new-password" : "current-password"}
+                  minLength={signup ? 12 : 1}
+                  maxLength={256}
+                  placeholder="Enter your password"
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="password-eye-button"
+                  onClick={() => setShowPassword((value) => !value)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+            </label>
+            {signup && (
+              <label>
+                Confirm password
+
+                <div className="password-input-wrapper">
+                  <input
+                    name="confirmation"
+                    type={showConfirmation ? "text" : "password"}
+                    autoComplete="new-password"
+                    required
+                    minLength={12}
+                    maxLength={256}
+                    placeholder="Confirm your password"
+                  />
+
+                  <button
+                    type="button"
+                    className="password-eye-button"
+                    onClick={() =>
+                      setShowConfirmation((value) => !value)
+                    }
+                    aria-label={
+                      showConfirmation
+                        ? "Hide confirm password"
+                        : "Show confirm password"
+                    }
+                  >
+                    {showConfirmation ? (
+                      <EyeOff size={20} />
+                    ) : (
+                      <Eye size={20} />
+                    )}
+                  </button>
+                </div>
+
+                <small>Use at least 12 characters.</small>
+              </label>
+            )}
             <ErrorBox error={error || notice} />
 
             <button
@@ -128,8 +180,13 @@ function Login({ onLogin, onBack, notice, initialSignup = false }) {
               {busy ? (signup ? "Creating account…" : "Signing in…") : (signup ? "Create account" : "Login")}
             </button>
           </form>
-          <button className="account-switch" type="button" disabled={busy} onClick={() => { setError(""); setSignup(value => !value); }}>{signup ? "Already registered? Sign in" : "New here? Create an account"}</button>
-          {signup && <p className="registration-note">Public signup creates a victim account. Legal officers, counsellors and administrators receive staff accounts from the platform administrator.</p>}
+          <button className="account-switch" type="button" disabled={busy} onClick={() => {
+            setError("");
+            setShowPassword(false);
+            setShowConfirmation(false);
+            setSignup((value) => !value);
+          }} >{signup ? "Already registered? Sign in" : "New here? Create an account"}</button>
+          {signup && <p className="registration-note">Public signup creates a victim account. Legal officers, counsellors, law enforcement officers and administrators receive staff accounts from the platform administrator.</p>}
 
 
         </section>
@@ -231,11 +288,12 @@ function App() {
       />
     );
   }
+  const law = user.role === "LAW_ENFORCEMENT";
   const legal = user.role === "LEGAL_OFFICER",
     admin = user.role.endsWith("_ADMIN");
-  const links = legal
+  const links = law ? ["Complaints & FIRs"] : legal
     ? ["Overview", "Cases"]
-    : admin ? ["Overview", ...(user.role !== "NATIONAL_ADMIN" ? ["Alerts"] : []), "NGO directory", "Government schemes"]
+    : admin ? ["Overview", ...(user.role !== "NATIONAL_ADMIN" ? ["Alerts", "Complaint assignments"] : []), "NGO directory", "Government schemes"]
     : [];
   function navigate(name) {
     setPage(name);
@@ -258,13 +316,13 @@ function App() {
           ))}
         </nav>
         <div className="sidebar-bottom">
-          <div className="secure-dot">● Secure access</div>
+
           <button onClick={logout}>Sign out</button>
         </div>
       </aside>
       <div className="workspace">
         <main className={page === "Home" ? "dashboard-home-content" : "content"}>
-          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => navigate(user.role === "COUNSELLOR" ? "Profile" : "Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : selectedCase ? (
+          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => navigate(law ? "Complaints & FIRs" : user.role === "COUNSELLOR" ? "Profile" : "Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : law ? <Complaints user={user} /> : page === "Complaint assignments" && admin ? <ComplaintAssignments /> : selectedCase ? (
             <CaseDetail
               caseId={selectedCase}
               onBack={() => setSelectedCase(null)}

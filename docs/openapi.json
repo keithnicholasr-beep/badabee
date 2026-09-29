@@ -2350,6 +2350,543 @@
         ]
       }
     },
+    "/complaints": {
+      "post": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Create",
+        "operationId": "create_complaints_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComplaintInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComplaintOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Listing",
+        "operationId": "listing_complaints_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ComplaintOut"
+                  },
+                  "title": "Response Listing Complaints Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaints/assignment-queue": {
+      "get": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Assignment Queue",
+        "operationId": "assignment_queue_complaints_assignment_queue_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaints/officers": {
+      "get": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Officers",
+        "operationId": "officers_complaints_officers_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/complaints/{complaint_id}/assign": {
+      "post": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Assign",
+        "operationId": "assign_complaints__complaint_id__assign_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "complaint_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Complaint Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignmentInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaints/{complaint_id}": {
+      "get": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Detail",
+        "operationId": "detail_complaints__complaint_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "complaint_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Complaint Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComplaintOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaints/{complaint_id}/fir": {
+      "post": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Register Fir",
+        "operationId": "register_fir_complaints__complaint_id__fir_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "complaint_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Complaint Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FIRInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComplaintOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaints/{complaint_id}/status": {
+      "patch": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Status",
+        "operationId": "status_complaints__complaint_id__status_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "complaint_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Complaint Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComplaintOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/complaints/{complaint_id}/messages": {
+      "get": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Messages",
+        "operationId": "messages_complaints__complaint_id__messages_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "complaint_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Complaint Id"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MessageOut"
+                  },
+                  "title": "Response Messages Complaints  Complaint Id  Messages Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Complaints and FIRs"
+        ],
+        "summary": "Send",
+        "operationId": "send_complaints__complaint_id__messages_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "complaint_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Complaint Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/health": {
       "get": {
         "tags": [
@@ -2514,6 +3051,22 @@
           "distress_trends"
         ],
         "title": "AnalyticsOut"
+      },
+      "AssignmentInput": {
+        "properties": {
+          "officer_id": {
+            "type": "string",
+            "maxLength": 36,
+            "minLength": 1,
+            "title": "Officer Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "officer_id"
+        ],
+        "title": "AssignmentInput"
       },
       "CaseCreate": {
         "properties": {
@@ -3007,6 +3560,168 @@
         "type": "object",
         "title": "CaseUpdate"
       },
+      "ComplaintInput": {
+        "properties": {
+          "subject": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Subject"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000,
+            "minLength": 10,
+            "title": "Description"
+          },
+          "location": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 2,
+            "title": "Location"
+          },
+          "incident_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Incident Date"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "subject",
+          "description",
+          "location"
+        ],
+        "title": "ComplaintInput"
+      },
+      "ComplaintOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "location": {
+            "type": "string",
+            "title": "Location"
+          },
+          "incident_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Incident Date"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "district_id": {
+            "type": "string",
+            "title": "District Id"
+          },
+          "district": {
+            "type": "string",
+            "title": "District"
+          },
+          "victim_name": {
+            "type": "string",
+            "title": "Victim Name"
+          },
+          "officer_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Officer Id"
+          },
+          "officer_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Officer Name"
+          },
+          "police_station": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Police Station"
+          },
+          "fir": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FIROut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "subject",
+          "description",
+          "location",
+          "incident_date",
+          "status",
+          "created_at",
+          "updated_at",
+          "district_id",
+          "district",
+          "victim_name",
+          "officer_id",
+          "officer_name",
+          "police_station",
+          "fir"
+        ],
+        "title": "ComplaintOut"
+      },
       "DocumentInput": {
         "properties": {
           "name": {
@@ -3267,6 +3982,64 @@
           "occurred_at"
         ],
         "title": "EventOut"
+      },
+      "FIRInput": {
+        "properties": {
+          "number": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Number"
+          },
+          "police_station": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 2,
+            "title": "Police Station"
+          },
+          "registered_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Registered On"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "number",
+          "police_station",
+          "registered_on"
+        ],
+        "title": "FIRInput"
+      },
+      "FIROut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "police_station": {
+            "type": "string",
+            "title": "Police Station"
+          },
+          "registered_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Registered On"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "police_station",
+          "registered_on"
+        ],
+        "title": "FIROut"
       },
       "FollowupInput": {
         "properties": {
@@ -3552,6 +4325,56 @@
           "password"
         ],
         "title": "Login"
+      },
+      "MessageInput": {
+        "properties": {
+          "body": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Body"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "body"
+        ],
+        "title": "MessageInput"
+      },
+      "MessageOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "sender_name": {
+            "type": "string",
+            "title": "Sender Name"
+          },
+          "mine": {
+            "type": "boolean",
+            "title": "Mine"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "body",
+          "sender_name",
+          "mine",
+          "created_at"
+        ],
+        "title": "MessageOut"
       },
       "NGOMatchOut": {
         "properties": {
@@ -4060,6 +4883,7 @@
         "enum": [
           "VICTIM",
           "COUNSELLOR",
+          "LAW_ENFORCEMENT",
           "LEGAL_OFFICER",
           "DISTRICT_ADMIN",
           "STATE_ADMIN",
@@ -4211,6 +5035,24 @@
           "section"
         ],
         "title": "SectionOut"
+      },
+      "StatusInput": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "IN_REVIEW",
+              "CLOSED"
+            ],
+            "title": "Status"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "StatusInput"
       },
       "TokenOut": {
         "properties": {

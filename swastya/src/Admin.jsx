@@ -59,7 +59,7 @@ export function AdminDashboard({ user }) {
     <>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">{human(user.role)} WORKSPACE</p>
+
           <h1>Support at a glance</h1>
           <p className="muted">
             A shared view of progress, risk, and service needs.
