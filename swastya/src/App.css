@@ -1671,3 +1671,11 @@ html[data-contrast="true"] .public-site :is(h2, h3, p, strong, .platform-list sp
  .public-site .header-login-button { padding: 9px 12px; font-size: .875rem; }
  .public-site .hero-actions { margin-top: 28px; }
 }
+
+/* Keep footer navigation beside the contact details across all workspaces. */
+.site-footer .footer-grid > .footer-support-group { display: flex; align-items: flex-start; justify-content: flex-end; gap: 28px; margin-left: auto; }
+.site-footer .footer-support-group nav { align-content: flex-start; gap: 16px; }
+.accessibility-toggles { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-block: 20px; }
+.accessibility-toggles .settings-check { display: inline-flex; flex-direction: row; align-items: center; gap: 10px; margin: 0; white-space: nowrap; }
+.accessibility-toggles .settings-check input { width: 20px; height: 20px; flex: 0 0 20px; }
+@media (max-width: 700px) { .site-footer .footer-grid > .footer-support-group { margin-left: 0; flex-wrap: wrap; justify-content: flex-start; gap: 20px; } }

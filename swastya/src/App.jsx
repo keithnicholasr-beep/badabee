@@ -1,3 +1,4 @@
+import SupportTeam from "./SupportTeam";
 import Complaints, { ComplaintAssignments } from "./Complaints";
 import SupportPages from "./SupportPages";
 import SiteFooter from "./SiteFooter";
@@ -215,9 +216,9 @@ function App() {
     window.addEventListener("hashchange", changed);
     return () => window.removeEventListener("hashchange", changed);
   }, []);
-  const supportRoute = ["privacy", "accessibility", "help", "help/contact"].includes(supportPage) ? supportPage : "";
+  const supportRoute = ["privacy", "accessibility", "help", "help/contact", "feedback"].includes(supportPage) ? supportPage : "";
   useEffect(() => {
-    document.title = supportRoute ? `${supportRoute === "privacy" ? "Privacy policy" : supportRoute === "accessibility" ? "Accessibility" : "Help centre"} | SWASTYA` : "SWASTYA | Support coordination";
+    document.title = supportRoute ? `${supportRoute === "feedback" ? "Feedback" : supportRoute === "privacy" ? "Privacy policy" : supportRoute === "accessibility" ? "Accessibility" : "Help centre"} | SWASTYA` : "SWASTYA | Support coordination";
     window.scrollTo(0, 0);
   }, [supportRoute]);
 
@@ -291,10 +292,10 @@ function App() {
   const law = user.role === "LAW_ENFORCEMENT";
   const legal = user.role === "LEGAL_OFFICER",
     admin = user.role.endsWith("_ADMIN");
-  const links = law ? ["Complaints & FIRs"] : legal
-    ? ["Overview", "Cases"]
+  const links = law ? ["Complaints & FIRs", "Clients"] : legal
+    ? ["Overview", "Cases", "Clients"]
     : admin ? ["Overview", ...(user.role !== "NATIONAL_ADMIN" ? ["Alerts", "Complaint assignments"] : []), "NGO directory", "Government schemes"]
-    : [];
+    : user.role === "COUNSELLOR" ? ["Clients"] : [];
   function navigate(name) {
     setPage(name);
     setSelectedCase(null);
@@ -322,7 +323,7 @@ function App() {
       </aside>
       <div className="workspace">
         <main className={page === "Home" ? "dashboard-home-content" : "content"}>
-          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => navigate(law ? "Complaints & FIRs" : user.role === "COUNSELLOR" ? "Profile" : "Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : law ? <Complaints user={user} /> : page === "Complaint assignments" && admin ? <ComplaintAssignments /> : selectedCase ? (
+          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => navigate(law ? "Complaints & FIRs" : user.role === "COUNSELLOR" ? "Clients" : "Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={logout} /> : page === "Clients" && ["LEGAL_OFFICER", "COUNSELLOR", "LAW_ENFORCEMENT"].includes(user.role) ? <SupportTeam user={user} /> : law ? <Complaints user={user} /> : page === "Complaint assignments" && admin ? <ComplaintAssignments /> : selectedCase ? (
             <CaseDetail
               caseId={selectedCase}
               onBack={() => setSelectedCase(null)}
@@ -342,7 +343,7 @@ function App() {
             <AdminDashboard user={user} />
           )}
         </main>
-        {page !== "Home" && <SiteFooter compact />}
+        {page !== "Home" && <SiteFooter user={user} compact />}
       </div>
     </div>
   );

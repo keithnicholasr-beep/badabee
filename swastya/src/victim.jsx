@@ -1,3 +1,4 @@
+import SupportTeam from "./SupportTeam";
 import Complaints from "./Complaints";
 import SiteFooter from "./SiteFooter";
 import DashboardHeader from "./DashboardHeader";
@@ -51,6 +52,7 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
     "Overview",
     "My cases",
     "Complaints & FIRs",
+    "My support team",
     "Follow-ups",
     "Schemes",
     "Find support",
@@ -89,7 +91,7 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
 
       <div className="workspace">
         <main className={page === "Home" ? "dashboard-home-content" : "content"}>
-          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => setPage("Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={onLogout} /> : page === "Complaints & FIRs" ? <Complaints user={user} /> : <>
+          {page === "Home" ? <Home user={user} section={homeSection} onLoginClick={() => setPage("Overview")} /> : page === "Profile" ? <Profile {...profileProps} onLogout={onLogout} /> : page === "My support team" ? <SupportTeam user={user} /> : page === "Complaints & FIRs" ? <Complaints user={user} /> : <>
           <div className="page-heading">
             <div>
 
@@ -280,7 +282,7 @@ export default function VictimDashboard({ user, onLogout, profileProps }) {
           )}
           </>}
         </main>
-        {page !== "Home" && <SiteFooter compact />}
+        {page !== "Home" && <SiteFooter user={user} compact />}
       </div>
     </div>
   );

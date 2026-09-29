@@ -15,3 +15,14 @@ One upstream test-library deprecation warning remains: the installed Starlette t
 CI includes PostgreSQL 17 migration/security tests and frontend build/lint jobs. CI has been configured but has not been run on GitHub because changes were not pushed.
 
 These checks validate this MVP implementation, not production readiness or security certification. See the README for remaining deployment and feature boundaries.
+
+## 29 September 2026 — reference layout and law enforcement
+
+- Retained the React/Vite and modular FastAPI/PostgreSQL setup; no new dependencies or duplicate dashboard implementations.
+- Added shared complaint workspace, victim submission, district-matched assignment, administrator transfer, officer FIR records and persisted private messages.
+- Backend: 44 tests passed, including ownership, cross-district denial, reassignment revocation, clinical isolation, staff provisioning and notification delivery.
+- Frontend: lint and production build passed; six existing authentication/preferences tests passed.
+- Migration: fresh SQLite upgrade and metadata check passed, preserving both existing jurisdiction constraints. PostgreSQL upgrade and `alembic check` passed. No existing records were reset or seeded.
+- Browser: synthetic officer recorded an FIR and sent a message; the synthetic victim saw both and successfully filed a new complaint with automatic assignment. Desktop reference styling and a 390px mobile homepage were inspected. No horizontal page overflow at 390px; navigation scrolls within its own row.
+- Restarted the normal hidden development services and verified that the live backend exposes complaint/message routes and Vite responds on 5173. Stopped isolated test servers.
+- Public contact details remain unset pending the operator's email and phone number. See `law-enforcement.md` for configuration and officer creation.

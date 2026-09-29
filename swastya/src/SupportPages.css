@@ -35,3 +35,10 @@
 .skip-link:focus { top: 12px; }
 html[data-contrast="true"] .support-site { --primary: var(--text); --primary-light: var(--surface); }
 @media (max-width: 700px) { .support-header { padding: 18px; align-items: flex-start; flex-direction: column; gap: 16px; } .support-header nav { gap: 14px; } .support-content { padding: 32px 18px 50px; } .site-footer .footer-grid { flex-direction: column; align-items: flex-start; gap: 16px; } }
+
+.feedback-page { max-width: 800px; }
+.feedback-form { display: grid; gap: 22px; margin-block: 24px; }
+.feedback-form label { display: grid; gap: 8px; }
+.feedback-form input, .feedback-form textarea { width: 100%; }
+.feedback-form textarea { resize: vertical; }
+.feedback-form button { justify-self: start; }

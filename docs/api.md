@@ -50,7 +50,7 @@ Case statuses: OPEN/CLOSED/ON_HOLD. Investigation: PENDING/IN_PROGRESS/COMPLETED
 | GET `/followups` | Scoped metadata, `offset=0&limit=100` (max 200) |
 | GET `/followups/{id}/note` | Authoring counsellor, still assigned: `{id,note,created_at}` |
 
-Follow-up metadata is `{id,victim_id,counsellor_id,due_at,status}`. Notes are never embedded. Chat and assessment tables define persistence boundaries only; their operational APIs and dashboards belong to the separate support-team workstream.
+Follow-up metadata is `{id,victim_id,counsellor_id,due_at,status}`. Notes are never embedded. The ChatMessage table now supports assignment-scoped one-to-one communication; see [support-team.md](support-team.md). Assessment contracts remain separate.
 
 ## Distress producer contract
 
@@ -117,8 +117,8 @@ Available to every authenticated role; endpoints always operate on the authentic
 
 | Endpoint | Contract |
 |---|---|
-| GET `/profile` | Own id, name, email, role, created_at, photo, language, theme, text_size, high_contrast, reduced_motion |
-| PATCH `/profile` | Required name and email; current_password required when email changes. Preferences: language (English/Hindi/Tamil/Kannada/Telugu/Malayalam/Marathi/Bengali), theme (system/light/dark), text_size (standard/large/extra-large), high_contrast and reduced_motion booleans. Returns updated profile. Send all preferences; omitted preferences use defaults. |
+| GET `/profile` | Own id, name, email, phone, role, created_at, photo, language, theme, text_size, high_contrast, reduced_motion |
+| PATCH `/profile` | Required name and email; optional phone (empty/null clears, omission preserves); current_password required when email changes. Preferences: language (English/Hindi/Tamil/Kannada/Telugu/Malayalam/Marathi/Bengali), theme (system/light/dark), text_size (standard/large/extra-large), high_contrast and reduced_motion booleans. Returns updated profile. Send all preferences; omitted preferences use defaults. |
 | POST `/profile/photo` | `{data_url: "data:image/png;base64,..."}` or JPEG. `{data_url: null}` removes photo. Returns updated profile. |
 | POST `/profile/password` | `{current_password, new_password}`. New password 12–256 characters; spaces preserved. Returns success message and invalidates all previously issued JWTs, including the current session. |
 
@@ -130,4 +130,9 @@ Language is a saved communication preference, not a translation switch; the curr
 
 ## Complaints and law enforcement
 
-See [law-enforcement.md](law-enforcement.md) for complaint/FIR/message contracts, assignment rules, officer provisioning and contact configuration. The new `LAW_ENFORCEMENT` role has only assigned same-district complaint access; it has no clinical/analytics access. Complaint messages are separate from the existing clinical chat contract.
+See [law-enforcement.md](law-enforcement.md) for complaint/FIR/message contracts, assignment rules, officer provisioning and contact configuration. The `LAW_ENFORCEMENT` role has assigned same-district complaint access and basic support-team cards/communication for those victims; it has no clinical/analytics access. Complaint messages are separate from pairwise support-team chat.
+
+
+## Support-team cards and communication
+
+See [support-team.md](support-team.md) for assignment-scoped client cards, contact phone numbers and victim/staff/department chat contracts. New unsaved profile and browser themes default to light.

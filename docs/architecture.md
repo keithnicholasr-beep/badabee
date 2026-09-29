@@ -72,12 +72,12 @@ The checked-in initial Alembic migration is frozen and does not import changing 
 |---|---|---|---|---|
 | VICTIM | Own only | Own follow-up metadata and distress history | None | None in this scope |
 | COUNSELLOR | Actively assigned victims | Assigned follow-ups/distress; own authored notes only | None | Own assigned follow-ups; alert acknowledgement |
-| LEGAL_OFFICER | Assigned cases or explicit case permissions; minimal linked victim profile | No counselling notes, chats, follow-ups or distress factors | Legal overview only | Assigned/edit-permitted cases |
+| LEGAL_OFFICER | Assigned cases or explicit case permissions; minimal linked victim profile | No counselling notes, other participants’ chats, follow-ups or distress factors | Legal overview only | Assigned/edit-permitted cases |
 | DISTRICT_ADMIN | Cases/victims within district | Follow-up metadata, operational alerts; no notes or detailed distress | Own district | Alert acknowledgement |
 | STATE_ADMIN | Cases/victims within state | Follow-up metadata, operational alerts; no notes or detailed distress | Own state, narrower district | Alert acknowledgement |
 | NATIONAL_ADMIN | No victim/case row access | No individual support records | National, narrower state/district aggregates | None |
 
-Directories contain non-clinical information and are available to authenticated roles across jurisdictions. Victim-specific matching/eligibility still requires victim access. No endpoint lists raw counselling notes, chat messages, assessments, password hashes or object-storage keys. Notes are a separate table and only their author, while still assigned, may retrieve them. There is no automatic consent-sharing pathway to legal officers.
+Directories contain non-clinical information and are available to authenticated roles across jurisdictions. Victim-specific matching/eligibility still requires victim access. No general endpoint lists raw counselling notes, assessments, password hashes or object-storage keys. Chat reads are restricted to their two current participants and victim context. Notes are a separate table and only their author, while still assigned, may retrieve them. There is no automatic consent-sharing pathway to legal officers.
 
 Authorization uses the current database user role on every request, not client-supplied role claims. Assignment removal and account deactivation therefore take effect immediately. Resource reads combine ID and access scope in SQL; missing and forbidden IDs return the same 404. Role-wide denials return 403. Integration ingestion uses a separate constant-time checked credential and cannot log in as a user.
 
@@ -97,3 +97,14 @@ Successful sensitive reads/writes and authentication events generate audit recor
 ## Implementation sequence
 
 Models and migration → authentication/scopes → case/support contracts → directories/rules → analytics/outbox → synthetic seed → React dashboards → authorization/workflow tests and builds. The architecture plan was presented before code changes.
+
+## Law-enforcement module
+
+The `LAW_ENFORCEMENT` role uses the existing authentication and profile system. Its operational data is limited to assigned same-district complaints, linked FIR registration records and complaint-specific messages. Victims file and read only their own complaints; district/state administrators see assignment metadata and can transfer assignments within jurisdiction. National administrators have no individual complaint access. Complaint threads, pairwise support-team conversations and counselling notes have separate access rules.
+
+The four new tables and API/security contracts are documented in [law-enforcement.md](law-enforcement.md). The same React complaint workspace is used by victims and law-enforcement officers, with role-appropriate actions enforced again by FastAPI.
+
+
+## Support-team communication
+
+The communications module reuses ChatMessage for victim/staff and cross-department one-to-one threads. Membership comes from current counsellor assignments, assigned/permitted cases and jurisdiction-valid complaint assignments. The same React SupportTeam component serves the three staff dashboards and victim dashboard. See [support-team.md](support-team.md) for contracts and confidentiality rules.

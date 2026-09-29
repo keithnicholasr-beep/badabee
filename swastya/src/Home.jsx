@@ -5,7 +5,7 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
     if (section?.id) document.getElementById(section.id)?.scrollIntoView({ block: "start" });
   }, [section]);
   const restricted = ["LEGAL_OFFICER", "COUNSELLOR", "LAW_ENFORCEMENT"].includes(user?.role);
-  const action = user ? (user.role === "COUNSELLOR" ? "Open my profile" : "Open my dashboard") : "Login";
+  const action = user ? "Open my dashboard" : "Login";
   return (
     <div className={user ? "public-site dashboard-home" : "public-site"}>
 
@@ -239,7 +239,7 @@ export default function Home({ onLoginClick, onSignupClick, user, section }) {
         </section>
       </div>
 
-      <SiteFooter showBrand={!user} />
+      <SiteFooter user={user} showBrand={!user} />
     </div>
   );
 }

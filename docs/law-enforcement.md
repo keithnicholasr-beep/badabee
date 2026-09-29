@@ -31,7 +31,7 @@ This records FIR details within SWASTYA. It does not register an FIR in an exter
 - Victim: own complaints, FIR records and conversation only.
 - Law enforcement: currently assigned complaints in their district only. No counselling notes, distress records, legal cases, directories or analytics.
 - District/state admin: assignment metadata and assignment changes within jurisdiction only; no complaint detail or messages.
-- National admin, legal officer, counsellor: no complaint or conversation access.
+- National admin, legal officer, counsellor: no access to complaint narratives or complaint conversations. Assigned staff can use separate pairwise support-team chats; see [support-team.md](support-team.md).
 - Reassignment immediately revokes the previous officer's access, including old messages. The new officer can read the complaint's history.
 - Reads, mutations and denied requests are audited. Bodies and passwords are not copied into audit entries.
 
@@ -92,3 +92,13 @@ Restart Vite (or rebuild a deployment) after filling these in. Empty values disp
 ## Visual system
 
 The existing DM Sans body / Manrope heading families are retained as the closest match to the supplied raster references. Standard desktop section headings are 38px, body text 15–16px, sidebar links 12px, and desktop header/nav heights approximately 80/42px (public header 96px). Font sizes scale with accessibility settings. Device theme, light/dark, high contrast and reduced motion remain supported. At narrower widths the grids stack and the sidebar becomes wrapping navigation.
+
+
+## Victim feedback
+
+The footer Contact navigation link has been removed. Only signed-in victim dashboards show its replacement, **Feedback**, at `#/feedback`. Other roles and the public homepage have no replacement link. The existing email/phone contact-details section is separate and unchanged.
+
+Feedback opens the user's mail app with a subject and message addressed to `sreehari.m@btech.christuniversity.in`. The user reviews and sends the draft; SWASTYA does not send email through a backend service or store the message. Operators can override the recipient with `VITE_FEEDBACK_EMAIL` and restart/rebuild Vite. Other roles and unauthenticated visitors cannot open the feedback form.
+
+
+Law enforcement also has a **Clients** section for basic cards of victims linked through assigned same-district complaints, with authorized staff contacts and pairwise chat. This does not grant clinical or legal case access.

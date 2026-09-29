@@ -23,12 +23,18 @@ class ProfileUpdate(BaseModel):
     model_config = ConfigDict(extra='forbid')
     name: str = Field(min_length=2, max_length=120)
     email: str = Field(min_length=3, max_length=254, pattern=r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+    phone: str | None = Field(default=None, max_length=32, pattern=r'^\+?[0-9][0-9 ()-]{5,30}[0-9]$')
     current_password: str = Field(default='', max_length=256)
     language: Literal['English', 'Hindi', 'Tamil', 'Kannada', 'Telugu', 'Malayalam', 'Marathi', 'Bengali'] = 'English'
-    theme: Literal['system', 'light', 'dark'] = 'system'
+    theme: Literal['system', 'light', 'dark'] = 'light'
     text_size: Literal['standard', 'large', 'extra-large'] = 'standard'
     high_contrast: bool = False
     reduced_motion: bool = False
+
+    @field_validator('phone', mode='before')
+    @classmethod
+    def normalize_phone(cls, value):
+        return value.strip() or None if isinstance(value, str) else value
 
     @field_validator('name', 'email', mode='before')
     @classmethod
@@ -67,11 +73,11 @@ def editable_preferences(db, user):
 def output(db, user):
     row = preferences(db, user)
     return {
-        'id': user.id, 'name': user.name, 'email': user.email,
+        'id': user.id, 'name': user.name, 'email': user.email, 'phone': user.phone,
         'role': user.role.value, 'created_at': user.created_at,
         'photo': row.photo if row else None,
         'language': row.language if row else 'English',
-        'theme': row.theme if row else 'system',
+        'theme': row.theme if row else 'light',
         'text_size': row.text_size if row else 'standard',
         'high_contrast': row.high_contrast if row else False,
         'reduced_motion': row.reduced_motion if row else False,
@@ -107,6 +113,8 @@ def update_profile(payload: ProfileUpdate, db: DB, user: Actor):
             raise HTTPException(409, 'This email is already registered')
     user.name = payload.name
     user.email = payload.email
+    if 'phone' in payload.model_fields_set:
+        user.phone = payload.phone
     row = editable_preferences(db, user)
     for field in ('language', 'theme', 'text_size', 'high_contrast', 'reduced_motion'):
         setattr(row, field, getattr(payload, field))

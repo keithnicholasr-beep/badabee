@@ -1,3 +1,4 @@
+import Feedback from "./Feedback";
 import ContactDetails from "./ContactDetails";
 import { useState } from 'react';
 import { patch } from './api';
@@ -90,8 +91,8 @@ function AccessibilityForm({ user, profileProps }) {
     <form className="panel pad accessibility-form" onSubmit={save}><fieldset disabled={busy}><legend>Display preferences</legend>
       <label>Theme<select value={form.theme} onChange={e => field('theme', e.target.value)}><option value="system">Use device setting</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
       <label>Text size<select value={form.text_size} onChange={e => field('text_size', e.target.value)}><option value="standard">Standard</option><option value="large">Large</option><option value="extra-large">Extra large</option></select></label>
-      <label className="settings-check"><input type="checkbox" checked={form.high_contrast} onChange={e => field('high_contrast', e.target.checked)} />High contrast</label>
-      <label className="settings-check"><input type="checkbox" checked={form.reduced_motion} onChange={e => field('reduced_motion', e.target.checked)} />Reduce motion</label>
+      <div className="accessibility-toggles"><label className="settings-check"><input type="checkbox" checked={form.high_contrast} onChange={e => field('high_contrast', e.target.checked)} />High contrast</label>
+      <label className="settings-check"><input type="checkbox" checked={form.reduced_motion} onChange={e => field('reduced_motion', e.target.checked)} />Reduce motion</label></div>
       <div className="help-actions"><button className="primary" type="submit">{busy ? 'Saving…' : 'Save settings'}</button><button type="button" onClick={() => setForm({ ...defaultPreferences })}>Reset form to defaults</button></div>
     </fieldset></form><section className="panel pad"><h2>Keyboard and browser controls</h2><p>Use Tab and Shift+Tab to move between controls. Use Enter to activate links and buttons. Browser zoom can further enlarge the page. Report accessibility barriers to your platform administrator.</p><a href="#/help/contact">Get help</a></section></>;
 }
@@ -99,7 +100,7 @@ function AccessibilityForm({ user, profileProps }) {
 export default function SupportPages({ page, user, profileProps }) {
   return <div className="support-site"><a className="skip-link" href="#support-content" onClick={event => { event.preventDefault(); document.getElementById("support-content")?.focus(); }}>Skip to content</a>
     <header className="support-header"><a href="#" className="support-brand">SWASTYA</a><nav aria-label="Support navigation"><a href="#">Back to {user ? 'workspace' : 'home'}</a><a href="#/privacy" aria-current={page === 'privacy' ? 'page' : undefined}>Privacy</a><a href="#/accessibility" aria-current={page === 'accessibility' ? 'page' : undefined}>Accessibility</a><a href="#/help" aria-current={page.startsWith('help') ? 'page' : undefined}>Help</a></nav></header>
-    <main id="support-content" tabIndex={-1} className="support-content">{page === 'privacy' ? <Privacy /> : page === 'accessibility' ? <Accessibility user={user} profileProps={profileProps} /> : <FAQ key={page} contact={page === 'help/contact'} />}</main>
-    <SiteFooter />
+    <main id="support-content" tabIndex={-1} className="support-content">{page === 'feedback' ? <Feedback user={user} /> : page === 'privacy' ? <Privacy /> : page === 'accessibility' ? <Accessibility user={user} profileProps={profileProps} /> : <FAQ key={page} contact={page === 'help/contact'} />}</main>
+    <SiteFooter user={user} />
   </div>;
 }

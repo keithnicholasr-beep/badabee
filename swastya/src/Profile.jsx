@@ -17,8 +17,8 @@ export default function Profile(props) {
 
 function ProfileForm({ profile, onUpdate, onLogout }) {
   const [form, setForm] = useState(() => {
-    const { name, email, language, theme, text_size, high_contrast, reduced_motion } = profile;
-    return { name, email, language, theme, text_size, high_contrast, reduced_motion, current_password: "" };
+    const { name, email, phone, language, theme, text_size, high_contrast, reduced_motion } = profile;
+    return { name, email, phone: phone || "", language, theme, text_size, high_contrast, reduced_motion, current_password: "" };
   });
   const [current, setCurrent] = useState("");
   const [password, setPassword] = useState("");
@@ -65,13 +65,14 @@ function ProfileForm({ profile, onUpdate, onLogout }) {
         <div className="settings-grid">
           <label>Full name<input autoComplete="name" required minLength={2} maxLength={120} value={form.name} onChange={e => field("name", e.target.value)} /></label>
           <label>Email address<input type="email" autoComplete="email" required maxLength={254} value={form.email} onChange={e => field("email", e.target.value)} /></label>
+          <label>Contact phone number<input type="tel" autoComplete="tel" maxLength={32} value={form.phone} onChange={e => field("phone", e.target.value)} /><small>Staff contact numbers are visible to assigned victims and their support team.</small></label>
           {form.email.trim().toLowerCase() !== profile.email && <label>Current password to change email<input type="password" autoComplete="current-password" required maxLength={256} value={form.current_password} onChange={e => field("current_password", e.target.value)} /></label>}
           <label>Preferred communication language<select value={form.language} onChange={e => field("language", e.target.value)}>{["English", "Hindi", "Tamil", "Kannada", "Telugu", "Malayalam", "Marathi", "Bengali"].map(x => <option key={x}>{x}</option>)}</select><small>The interface is currently available in English.</small></label>
           <label>Appearance<select value={form.theme} onChange={e => field("theme", e.target.value)}><option value="system">Use device setting</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
           <label>Text size<select value={form.text_size} onChange={e => field("text_size", e.target.value)}><option value="standard">Standard</option><option value="large">Large</option><option value="extra-large">Extra large</option></select></label>
         </div>
-        <label className="settings-check"><input type="checkbox" checked={form.high_contrast} onChange={e => field("high_contrast", e.target.checked)} />High contrast</label>
-        <label className="settings-check"><input type="checkbox" checked={form.reduced_motion} onChange={e => field("reduced_motion", e.target.checked)} />Reduce animations and motion</label>
+        <div className="accessibility-toggles"><label className="settings-check"><input type="checkbox" checked={form.high_contrast} onChange={e => field("high_contrast", e.target.checked)} />High contrast</label>
+        <label className="settings-check"><input type="checkbox" checked={form.reduced_motion} onChange={e => field("reduced_motion", e.target.checked)} />Reduce animations and motion</label></div>
         <button className="primary" type="submit">{busy ? "Saving…" : "Save changes"}</button>
       </fieldset>
     </form>

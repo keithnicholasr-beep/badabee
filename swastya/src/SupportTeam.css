@@ -1,0 +1,27 @@
+.team-search { display: flex; align-items: end; gap: 12px; margin-block: 20px; }
+.team-search label { flex: 1; max-width: 450px; }
+.client-cards { display: grid; gap: 24px; margin-block: 24px; }
+.client-card-header { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.client-card-header h2 { margin: 0; }
+.client-card-header p { margin-bottom: 0; }
+.client-card-header > button { margin-left: auto; }
+.client-initials, .client-card-header .profile-photo { width: 64px; height: 64px; flex-shrink: 0; }
+.client-initials { display: grid; place-items: center; border-radius: 50%; background: var(--primary-light); color: var(--text); font-weight: 700; }
+.team-contacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 20px; }
+.team-contact { border: 1px solid var(--border); padding: 20px; min-width: 0; }
+.team-contact h3 { margin: 0; }
+.team-contact dl { display: grid; gap: 5px; margin: 16px 0; }
+.team-contact dt { font-weight: 700; }
+.team-contact dd { margin: 0 0 10px; overflow-wrap: anywhere; }
+.team-contact a { color: var(--primary); }
+.team-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-block: 16px; }
+.team-conversation { max-width: 1000px; }
+.team-message-list { max-height: 480px; overflow-y: auto; padding-right: 6px; }
+.team-message { padding: 16px; border: 1px solid var(--border); background: var(--surface-soft); margin: 12px 32px 12px 0; }
+.team-message.mine { margin: 12px 0 12px 32px; background: var(--primary-light); }
+.team-message p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.team-message time { font-size: .75rem; color: var(--text-secondary); }
+.team-message-form { display: grid; gap: 14px; margin-top: 20px; }
+.team-message-form textarea { width: 100%; resize: vertical; }
+.team-message-form button { justify-self: start; }
+@media (max-width: 600px) { .client-card-header > button { margin-left: 0; } }

@@ -1,6 +1,6 @@
 # Profile settings
 
-Select **My profile & settings** from the dashboard sidebar. The counsellor placeholder also provides this option. Users can update their name and email, add/change/remove a picture, save appearance/accessibility preferences, and change their password. Email changes require the current password. Password changes sign out all sessions.
+Select **My Profile** in the dashboard header. Users can update their name and email, add/change/remove a picture, save appearance/accessibility preferences, and change their password. Email changes require the current password. Password changes sign out all sessions.
 
 ## Existing installation update
 
@@ -18,3 +18,6 @@ Language preferences are stored, but full interface translations are not yet imp
 ## Validation
 
 Backend tests run against the disposable test database configured in tests/conftest.py, never the local account database. Run `python -m pytest -q` from backend. Frontend: run `npm run lint` and `npm run build` from swastya.
+
+
+Staff can save a contact phone number for assigned victims and their support team to use. Light is the default appearance for accounts without saved preferences; existing preferences are retained.

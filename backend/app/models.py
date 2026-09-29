@@ -1,7 +1,7 @@
 import enum
 import uuid
 from datetime import datetime, timezone
-from sqlalchemy import String, Text, ForeignKey, DateTime, Date, Boolean, Integer, Float, JSON, UniqueConstraint, CheckConstraint, Enum
+from sqlalchemy import String, Text, ForeignKey, DateTime, Date, Boolean, Integer, Float, JSON, UniqueConstraint, CheckConstraint, Enum, Index
 from sqlalchemy.orm import Mapped, mapped_column
 from .db import Base, UTCDateTime
 
@@ -42,6 +42,7 @@ class User(Record, Base):
     __tablename__ = 'users'
     email: Mapped[str] = mapped_column(String(254), unique=True)
     name: Mapped[str] = mapped_column(String(120))
+    phone: Mapped[str | None] = mapped_column(String(32))
     password_hash: Mapped[str] = mapped_column(Text)
     role: Mapped[Role] = mapped_column(Enum(Role, native_enum=False))
     district_id: Mapped[str | None] = mapped_column(ForeignKey('districts.id'), index=True)
@@ -202,6 +203,7 @@ class Alert(Record, Base):
 
 class ChatMessage(Record, Base):
     __tablename__ = 'chat_messages'
+    __table_args__ = (Index('ix_chat_messages_pair_time', 'victim_id', 'sender_id', 'recipient_id', 'created_at'),)
     victim_id: Mapped[str] = mapped_column(ForeignKey('victims.id'), index=True)
     sender_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
     recipient_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
@@ -292,7 +294,7 @@ class UserSettings(Record, Base):
     user_id: Mapped[str] = mapped_column(ForeignKey('users.id'), unique=True)
     photo: Mapped[str | None] = mapped_column(Text)
     language: Mapped[str] = mapped_column(String(60), default='English')
-    theme: Mapped[str] = mapped_column(String(20), default='system')
+    theme: Mapped[str] = mapped_column(String(20), default='light')
     text_size: Mapped[str] = mapped_column(String(20), default='standard')
     high_contrast: Mapped[bool] = mapped_column(Boolean, default=False)
     reduced_motion: Mapped[bool] = mapped_column(Boolean, default=False)
